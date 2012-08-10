@@ -3,7 +3,7 @@
  * Wrapper for the billomat-API
  *
  * @version 1.0
- * @author Davor Ilic & Christopher Boelter
+ * @author Davor Ilic
  * @adapted http://code.google.com/p/billomatwrapper/source/browse/trunk/billomat.php
  * @license GNU General Public License v3 <http://www.gnu.org/licenses/gpl-3.0.html>
  * @link http://www.billomat.com/api/
