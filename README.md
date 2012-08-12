@@ -61,7 +61,7 @@ Now take a look how we retrive Data from the "billomat API" we choose for this e
         $bmId = 'YourBillomatID'; // this is your billomatID you use to login
         $bmApiKey = 'YourApiKey'; // the API Key you will got it from billomat settings check the explanation http://www.billomat.com/en/api/basics/
         $dataType = true; // Set to true, to output JSON Object, false otherwise for XML Object
-        $convertData = true; // Convert the JSON or XML data to Array, false otherwise for not converting the object 
+        $convertData = false; // Convert the JSON or XML data to Array, false otherwise for not converting the object 
 
     
         $billoWrap = new billoWrap($bmId, $bmApiKey, $dataType, $convertData);
@@ -74,7 +74,7 @@ Now we want to choose one special Client, therefor we only define the id for it.
 
         require_once 'billowrap.php';
     
-        $billoWrap = new billoWrap('YourBillomatID', 'YourApiKey', DataType, ConvertToArray);
+        $billoWrap = new billoWrap($bmId, $bmApiKey, $dataType, $convertData);
 
         $id = 12345; // the Client you want to show
     
