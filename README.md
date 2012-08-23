@@ -78,8 +78,11 @@ Now we want to choose one special Client, therefor we only define the id for it.
 
         $id = 12345; // the Client you want to show
     
-        $data = $billoWrap->getClients($id); 
-        print_r($data);
+        $singleData = $billoWrap->getSingleClient($id); 
+        print_r($singleData);
+    
+        $allData = $billoWrap->getAllClients(); 
+        print_r($allData);
 
 
 ## Changelog
