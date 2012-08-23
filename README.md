@@ -83,3 +83,12 @@ Now we want to choose one special Client, therefor we only define the id for it.
 
 
 ## Changelog
+
+### BilloWrap 1.0.5
+
+* Added all resources that exist in Billomat - API only for reading, not yet ready filterfunction, POST, PUT and DELETE
+* Function name conventions were changed example for list of clients `getAllClients()` ans example for getting a single client `getSingleClient(1234)`
+
+### BilloWrap 1.0.0 
+
+* Uploaded File
