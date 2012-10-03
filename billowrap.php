@@ -2,8 +2,8 @@
 /**
  * Wrapper for the billomat-API
  *
- * @version 1.0.5
- * @author Davor Ilic & Christopher Boelter
+ * @version 1.0.6
+ * @author Davor Ilic
  * @adapted http://code.google.com/p/billomatwrapper/source/browse/trunk/billomat.php
  * @license GNU General Public License v3 <http://www.gnu.org/licenses/gpl-3.0.html>
  * @link http://www.billomat.com/api/
@@ -24,6 +24,8 @@ class billoWrap {
     
     const RESOURCE_CLIENT_TAGS = 'client-tags';
     const RESOURCE_CLIENT_TAG = 'client-tags/%u';
+    
+    const RESOURCE_CLIENT_CUSTOMFIELD = 'clients/customfield?id=%u';
     
     
     //Articleresources
@@ -284,6 +286,39 @@ class billoWrap {
     
     
     /**
+     *  
+     * @param string Create a client
+     * 
+     */
+    public function addClient($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_CLIENTS, $data, 'post');
+    }
+    
+    
+    /**
+     *  
+     * @param string Edit client
+     * 
+     */
+    public function editClient($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CLIENT, $id), $data, 'put');
+    }
+    
+    
+    /**
+     *  
+     * @param string Delete client
+     * 
+     */
+    public function delClient($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CLIENT, $id), NULL, 'delete');
+    }
+    
+    
+    /**
      * 
      * @param string List all properties of a client
      * 
@@ -302,6 +337,17 @@ class billoWrap {
     public function getSingleClientPropertyValue($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CLIENT_PROPERTYVALUE, $id));
+    }
+    
+    
+    /**
+     *  
+     * @param string Set client property
+     * 
+     */
+    public function addClientPropertyValue($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_CLIENT_PROPERTYVALUES, $data, 'post');
     }
 
 
@@ -327,6 +373,42 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CLIENT_TAG, $id));
     }
+
+
+    
+    /**
+     * 
+     * @param string Create a client tag
+     * 
+     */
+    public function addClientTag($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_CLIENT_TAGS, $data, 'post');
+    }
+
+
+    
+    /**
+     * 
+     * @param string Delete tags (tagcloud)
+     * 
+     */
+    public function delClientTag($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CLIENT_TAG, $id), NULL, 'delete');
+    }
+
+
+    
+    /**
+     * 
+     * @param string Get client customfield
+     * 
+     */
+    public function getClientCustomField($client_id = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CLIENT_CUSTOMFIELD, $client_id));
+    }
     
     
     /**
@@ -348,6 +430,37 @@ class billoWrap {
     public function getSingleArticle($id = null)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_ARTICLES, $id));
+    }
+    
+    
+    /**
+     * Note: not work yet
+     * @param string List all articles
+     * 
+     */
+    public function addArticle($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_ARTICLES, $data, 'post');
+    }
+    
+    
+    /**
+     * @param string Edit article
+     * 
+     */
+    public function editArticle($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_ARTICLE, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * @param string Delete article
+     * 
+     */
+    public function delArticle($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_ARTICLE, $id), NULL, 'delete');
     }
     
     
@@ -375,6 +488,17 @@ class billoWrap {
     
     /**
      * 
+     * @param string Add Article properties
+     * 
+     */
+    public function addArticlePropertyValue($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_ARTICLE_PROPERTYVALUES, $data, 'post');
+    }
+    
+    
+    /**
+     * 
      * @param string List all Article tags (tagcloud)
      * 
      */
@@ -392,6 +516,28 @@ class billoWrap {
     public function getSingleArticleTag($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_ARTICLE_TAG, $id));
+    }
+    
+    
+    /**
+     * 
+     * @param string Add Article tags (tagcloud)
+     * 
+     */
+    public function addArticleTag($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_ARTICLE_TAGS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete Article tag (tagcloud)
+     * 
+     */
+    public function delArticleTag($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_ARTICLE_TAG, $id), NULL, 'delete');
     }
     
     
@@ -419,6 +565,39 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all units
+     * 
+     */
+    public function addUnits($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_UNITS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Edit unit
+     * 
+     */
+    public function editUnits($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_UNIT, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete unit
+     * 
+     */
+    public function delUnits($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_UNIT, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all invoices
      * 
      */
@@ -436,6 +615,39 @@ class billoWrap {
     public function getSingleInvoices($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_INVOICE_PAYMENTS, $id));
+    }
+    
+    
+    /**
+     * 
+     * @param string List all invoices
+     * 
+     */
+    public function addInvoice($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_INVOICE_PAYMENTS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Edit invoice
+     * 
+     */
+    public function editInvoice($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_INVOICE_PAYMENT, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete invoice
+     * 
+     */
+    public function delInvoice($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_INVOICE_PAYMENT, $id), NULL, 'delete');
     }
     
     
@@ -463,6 +675,39 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all invoice items
+     * 
+     */
+    public function addInvoiceItem($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_CONFIRMATION_ITEMS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Edit invoice item
+     * 
+     */
+    public function editInvoiceItem($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CONFIRMATION_ITEM, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete invoice item
+     * 
+     */
+    public function delInvoiceItem($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CONFIRMATION_ITEM, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all comments of an invoice
      * 
      */
@@ -485,13 +730,34 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all comments of an invoice
+     * 
+     */
+    public function addInvoiceComment($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_INVOICE_COMMENTS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete invoice comment
+     * 
+     */
+    public function delInvoiceComment($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_INVOICE_COMMENT, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all invoice payments
      * 
      */
     public function getAllInvoicePayments()
     {
 	return $this->setRequestData(self::RESOURCE_INVOICE_PAYMENTS);
-	
     }
     
     
@@ -503,7 +769,28 @@ class billoWrap {
     public function getSingleInvoicePayment($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_INVOICE_PAYMENT, $id));
-	
+    }
+    
+    
+    /**
+     * 
+     * @param string List all invoice payments
+     * 
+     */
+    public function addInvoicePayment($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_INVOICE_PAYMENTS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete invoice payment
+     * 
+     */
+    public function delInvoicePayment($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_INVOICE_PAYMENT, $id), NULL, 'delete');
     }
     
     
@@ -524,6 +811,28 @@ class billoWrap {
      * 
      */
     public function getSingleInvoiceTag($id = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_INVOICE_TAG, $id));
+    }
+    
+    
+    /**
+     * 
+     * @param string List all invoice tags (tagcloud)
+     * 
+     */
+    public function addInvoiceTag($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_INVOICE_TAGS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete invoice tag
+     * 
+     */
+    public function delInvoiceTag($id)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_INVOICE_TAG, $id));
     }
@@ -553,6 +862,39 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all recurrings
+     * 
+     */
+    public function addRecurring($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_RECURRINGS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Edit recurring
+     * 
+     */
+    public function editRecurring($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_RECURRING, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete recurring
+     * 
+     */
+    public function delRecurring($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_RECURRING, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all recurring items
      * 
      */
@@ -570,6 +912,39 @@ class billoWrap {
     public function getSingleRecurringItem($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_RECURRING_ITEM, $id));
+    }
+    
+    
+    /**
+     * 
+     * @param string List all recurring items
+     * 
+     */
+    public function addRecurringItem($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_RECURRING_ITEMS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Edit recurring items
+     * 
+     */
+    public function editRecurringItem($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_RECURRING_ITEM, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete recurring items
+     * 
+     */
+    public function delRecurringItem($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_RECURRING_ITEM, $id), NULL, 'delete');
     }
     
     
@@ -597,6 +972,28 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all recurring tags (tagcloud)
+     * 
+     */
+    public function addRecurringTag($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_REMINDER_TAGS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete recurring tag
+     * 
+     */
+    public function delRecurringTag($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_REMINDER_TAG, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all estimates
      * 
      */
@@ -614,6 +1011,39 @@ class billoWrap {
     public function getSingleOffer($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_OFFER, $id));
+    }
+    
+    
+    /**
+     * 
+     * @param string List all estimates
+     * 
+     */
+    public function addOffer($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_OFFERS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Edit estimates
+     * 
+     */
+    public function editOffer($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_OFFER, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete estimates
+     * 
+     */
+    public function delOffer($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_OFFER, $id), NULL, 'delete');
     }
     
     
@@ -641,6 +1071,39 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all estimate items
+     * 
+     */
+    public function addOfferItem($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_OFFER_ITEMS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Edit estimate items
+     * 
+     */
+    public function editOfferItem($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_OFFER_ITEM, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete estimate items
+     * 
+     */
+    public function delOfferItem($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_OFFER_ITEM, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all comments of an estimate
      * 
      */
@@ -658,6 +1121,39 @@ class billoWrap {
     public function getSingleOfferComment($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_OFFER_COMMENT, $id));
+    }
+    
+    
+    /**
+     * 
+     * @param string List all comments of an estimate
+     * 
+     */
+    public function addOfferComment($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_OFFER_COMMENTS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Edit comments of an estimate
+     * 
+     */
+    public function editOfferComment($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_OFFER_COMMENT, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete comments of an estimate
+     * 
+     */
+    public function delOfferComment($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_OFFER_COMMENT, $id), NULL, 'delete');
     }
     
     
@@ -685,6 +1181,28 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all estimate tags (tagcloud)
+     * 
+     */
+    public function addOfferTag($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_OFFER_TAGS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete estimate tag
+     * 
+     */
+    public function delOfferTag($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_OFFER_TAG, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all credit notes
      * 
      */
@@ -702,6 +1220,40 @@ class billoWrap {
     public function getSingleCreditNote($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CREDITNOTE, $id));
+    }
+    
+    
+    /**
+     * 
+     * @param string Create credit note
+     * 
+     */
+    public function addCreditNote($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_CREDITNOTES, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param int Edit credit note
+     * @param mixed XML or JSON
+     * 
+     */
+    public function editCreditNote($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CREDITNOTE, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param int Delete credit note
+     * 
+     */
+    public function delCreditNote($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CREDITNOTE, $id), NULL, 'delete');
     }
     
     
@@ -729,6 +1281,40 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all Credit note items
+     * 
+     */
+    public function addCreditNoteItem($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_CREDITNOTE_ITEMS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param int $id ID of 
+     * @param 
+     * 
+     */
+    public function editCreditNoteItem($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CREDITNOTE_ITEM, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param int $id Delete Creditnoteitem
+     * 
+     */
+    public function delCreditNoteItem($id) 
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CREDITNOTE_ITEM, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all comments of a credit note
      * 
      */
@@ -746,6 +1332,28 @@ class billoWrap {
     public function getSingleCreditNoteComment($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CREDITNOTE_COMMENT, $id));
+    }
+    
+    
+    /**
+     * 
+     * @param string List all comments of a credit note
+     * 
+     */
+    public function addCreditNoteComment($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_CREDITNOTE_COMMENTS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string List all comments of a credit note
+     * 
+     */
+    public function delCreditNoteComment($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CREDITNOTE_COMMENT, $id), NULL, 'delete');
     }
     
     
@@ -773,6 +1381,28 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all payments of a credit note
+     * 
+     */
+    public function addCreditNotePayemt($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_CREDITNOTE_PAYMENTS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete credit note payment
+     * 
+     */
+    public function delCreditNotePayemt($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CREDITNOTE_PAYMENT, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all tags (tagcloud) of a credit note
      * 
      */
@@ -790,6 +1420,28 @@ class billoWrap {
     public function getSingleCreditNoteTag($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CREDITNOTE_TAG, $id));
+    }
+    
+    
+    /**
+     * 
+     * @param string List all tags (tagcloud) of a credit note
+     * 
+     */
+    public function addCreditNoteTag($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_CREDITNOTE_TAGS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete a credit note tag
+     * 
+     */
+    public function delCreditNoteTag($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CREDITNOTE_TAG, $id), 'delete');
     }
     
     
@@ -817,6 +1469,39 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all confirmations
+     * 
+     */
+    public function addConfirmation($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_CONFIRMATIONS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Create a confirmation
+     * 
+     */
+    public function editConfirmation($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CONFIRMATION, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Create a confirmation
+     * 
+     */
+    public function delConfirmation($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CONFIRMATION, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all confirmation items
      * 
      */
@@ -834,6 +1519,39 @@ class billoWrap {
     public function getSingleConfirmationItem($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CONFIRMATION_COMMENT, $id));
+    }
+    
+    
+    /**
+     * 
+     * @param string List all confirmations
+     * 
+     */
+    public function addConfirmationItem($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_CONFIRMATION_ITEMS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Edit a confirmation item
+     * 
+     */
+    public function editConfirmationItem($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CONFIRMATION_ITEM, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete a confirmation item
+     * 
+     */
+    public function delConfirmationItem($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CONFIRMATION_ITEM, $id), NULL, 'delete');
     }
     
     
@@ -861,6 +1579,28 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all confirmations
+     * 
+     */
+    public function addConfirmationComment($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_CONFIRMATION_COMMENTS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete a confirmation comment
+     * 
+     */
+    public function delConfirmationComment($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CONFIRMATION_COMMENT, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all tags (tagcloud) of a confirmation
      * 
      */
@@ -878,6 +1618,28 @@ class billoWrap {
     public function getSingleConfirmationTag($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CONFIRMATION_TAG, $id));
+    }
+    
+    
+    /**
+     * 
+     * @param string List all confirmations
+     * 
+     */
+    public function addConfirmationTag($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_CONFIRMATION_TAGS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Del a confirmation tag
+     * 
+     */
+    public function delConfirmationTag($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_CONFIRMATION_TAG, $id), NULL, 'delete');
     }
     
     
@@ -905,6 +1667,39 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all reminders
+     * 
+     */
+    public function addReminder($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_REMINDERS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Create a reminder
+     * 
+     */
+    public function editReminder($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_REMINDER, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete a reminder
+     * 
+     */
+    public function delReminder($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_REMINDER, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all reminder items
      * 
      */
@@ -922,6 +1717,39 @@ class billoWrap {
     public function getSingleReminderItem($id = NULL)
     {
 	return $this->setRequestData(self::RESOURCE_REMINDER_ITEM, $id);
+    }
+    
+    
+    /**
+     * 
+     * @param string List all reminders
+     * 
+     */
+    public function addReminderItem($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_REMINDER_ITEMS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Edit a reminder
+     * 
+     */
+    public function editReminderItem($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_REMINDER_ITEM, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete a reminder
+     * 
+     */
+    public function delReminderItem($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_REMINDER_ITEM, $id), NULL, 'delete');
     }
     
     
@@ -949,6 +1777,28 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all reminders
+     * 
+     */
+    public function addReminderTag($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_REMINDER_TAGS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete a reminder
+     * 
+     */
+    public function delReminderTag($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_REMINDER_TAG, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all delivery notes
      * 
      */
@@ -966,6 +1816,39 @@ class billoWrap {
     public function getSingleDesliveryNote($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_DELIVERIENOTE_ITEM, $id));
+    }
+    
+    
+    /**
+     * 
+     * @param string List all delivery notes
+     * 
+     */
+    public function addDeliveryNote($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_DELIVERIENOTES, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Edit a delivery note
+     * 
+     */
+    public function editDeliveryNote($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_DELIVERIENOTE, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete a delivery note
+     * 
+     */
+    public function delDeliveryNote($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_DELIVERIENOTE, $id), NULL, 'delete');
     }
     
     
@@ -993,6 +1876,39 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all delivery notes
+     * 
+     */
+    public function addDeliveryNoteItem($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_DELIVERIENOTE_ITEMS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Edit a delivery note item
+     * 
+     */
+    public function editDeliveryNoteItem($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_DELIVERIENOTE_ITEM, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete a delivery note item
+     * 
+     */
+    public function delDeliveryNoteItem($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_DELIVERIENOTE_ITEM, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all comments of a delivery note
      * 
      */
@@ -1010,6 +1926,28 @@ class billoWrap {
     public function getSingleDeliveryNoteComment($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_DELIVERIENOTE_COMMENT, $id));
+    }
+    
+    
+    /**
+     * 
+     * @param string List all delivery note comment
+     * 
+     */
+    public function addDeliveryNoteComment($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_DELIVERIENOTE_COMMENTS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete a delivery note comment
+     * 
+     */
+    public function delDeliveryNoteComment($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_DELIVERIENOTE_COMMENT, $id), NULL, 'put');
     }
     
     
@@ -1037,6 +1975,28 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all delivery notes
+     * 
+     */
+    public function addDeliveryNoteTag($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_DELIVERIENOTE_TAGS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string List all delivery notes
+     * 
+     */
+    public function delDeliveryNoteTag($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_DELIVERIENOTE_TAG, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all templates
      * 
      */
@@ -1059,12 +2019,56 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all templates
+     * 
+     */
+    public function addTemplate($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_TEMPLATES, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Edit a template
+     * 
+     */
+    public function editTemplate($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_TEMPLATE, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Edit a template
+     * 
+     */
+    public function delTemplate($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_TEMPLATE, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string View settings
      * 
      */
     public function getSettings()
     {
 	return $this->setRequestData(self::RESOURCE_SETTINGS);
+    }
+    
+    
+    /**
+     * 
+     * @param string Edit settings
+     * 
+     */
+    public function editSettings($data)
+    {
+	return $this->setRequestData(self::RESOURCE_SETTINGS, $data, 'put');
     }
     
     
@@ -1092,6 +2096,39 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all article properties
+     * 
+     */
+    public function addSettingArticleProperty($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_SETTING_ARTICLEPROPERTIES, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Edit a article propertie
+     * 
+     */
+    public function editSettingArticleProperty($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_SETTING_ARTICLEPROPERTIE, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete a article propertie
+     * 
+     */
+    public function delSettingArticleProperty($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_SETTING_ARTICLEPROPERTIE, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all client properties
      * 
      */
@@ -1109,6 +2146,39 @@ class billoWrap {
     public function getSingleSettingClientPropertie($id = NULL)
     {
 	$this->setRequestData(sprintf(self::RESOURCE_SETTING_CLIENTPROPERTIE, $id));
+    }
+    
+    
+    /**
+     * 
+     * @param string List all client properties
+     * 
+     */
+    public function addSettingClientProperty($data = NULL)
+    {
+	$this->setRequestData(self::RESOURCE_SETTING_CLIENTPROPERTIES, $data, 'post');
+    }
+    
+    
+    /**
+     * @param int $id empty
+     * @param string Edit a client propertie
+     * 
+     */
+    public function editSettingClientProperty($id, $data = NULL)
+    {
+	$this->setRequestData(sprintf(self::RESOURCE_SETTING_CLIENTPROPERTIE, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Del a client propertie
+     * 
+     */
+    public function delSettingClientProperty($id)
+    {
+	$this->setRequestData(sprintf(self::RESOURCE_SETTING_CLIENTPROPERTIE, $id), NULL, 'delete');
     }
     
     
@@ -1136,6 +2206,39 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all user properties
+     * 
+     */
+    public function addSettingUserProperty($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_SETTING_USERRPROPERTIES, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Edit a user propertie
+     * 
+     */
+    public function editSettingUserProperty($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_SETTING_USERRPROPERTIE, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete a user propertie
+     * 
+     */
+    public function delSettingUserProperty($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_SETTING_USERRPROPERTIE, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all tax rates
      * 
      */
@@ -1153,6 +2256,39 @@ class billoWrap {
     public function getSingleSettingTaxe($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_SETTING_TAXE, $id));
+    }
+    
+    
+    /**
+     * 
+     * @param string List all tax rates
+     * 
+     */
+    public function addSettingTax($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_SETTING_TAXES, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string Edit a tax rate
+     * 
+     */
+    public function editSettingTax($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_SETTING_TAXE, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string Delete a tax rate
+     * 
+     */
+    public function delSettingTax($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_SETTING_TAXE, $id), NULL, 'delete');
     }
     
     
@@ -1180,6 +2316,37 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all tax free countries
+     * 
+     */
+    public function addSettingCountryTax($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_SETTING_COUNTRYTAXES, $data, 'post');
+    }
+    
+    
+    /**
+     * @param int $id empty
+     * @param string List all tax free countries
+     * 
+     */
+    public function editSettingCountryTax($id, $data = NULL)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_SETTING_COUNTRYTAXE, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * @param int $id empty
+     */
+    public function delSettingCountryTax($id)
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_SETTING_COUNTRYTAXE, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all reminder texts
      * 
      */
@@ -1202,10 +2369,43 @@ class billoWrap {
     
     /**
      * 
+     * @param string List all reminder texts
+     * 
+     */
+    public function addSettingReminderText($data = NULL) 
+    {
+	return $this->setRequestData(self::RESOURCE_SETTING_REMINDERTEXTS, $data, 'post');
+    }
+    
+    
+    /**
+     * 
+     * @param string List all reminder texts
+     * 
+     */
+    public function editSettingReminderText($id, $data = NULL) 
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_SETTING_REMINDERTEXT, $id), $data, 'put');
+    }
+    
+    
+    /**
+     * 
+     * @param string List all reminder texts
+     * 
+     */
+    public function delSettingReminderText($id) 
+    {
+	return $this->setRequestData(sprintf(self::RESOURCE_SETTING_REMINDERTEXT, $id), NULL, 'delete');
+    }
+    
+    
+    /**
+     * 
      * @param string List all users
      * 
      */
-    public function getAllUser()
+    public function getAllUsers()
     {
 	$this->setRequestData(self::RESOURCE_CLIENTS);
     }
@@ -1218,7 +2418,7 @@ class billoWrap {
      */
     public function getSingleUser($id = NULL)
     {
-	$this->setRequestData(sprintf(self::RESOURCE_CLIENTS, $id));
+	$this->setRequestData(sprintf(self::RESOURCE_CLIENT, $id));
     }
     
     
@@ -1241,6 +2441,17 @@ class billoWrap {
     public function getSingleUserPropertieValues($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_USER_PROPERTYVALUE, $id));
+    }
+    
+    
+    /**
+     * 
+     * @param string List all properties of an user
+     * 
+     */
+    public function addUserPropertieValue($data = NULL)
+    {
+	return $this->setRequestData(self::RESOURCE_USER_PROPERTYVALUES, $data, 'post');
     }
     
     /**
@@ -1280,7 +2491,7 @@ class billoWrap {
 	    $contentType = 'application/xml';
 	}
 	
-	header(sprintf('Content-Type: %s', $contentType));
+	return sprintf('Content-Type: %s', $contentType);
     }
     
     
@@ -1289,14 +2500,14 @@ class billoWrap {
      * 
      * @return string
      */
-    private function setRequestData($resource, $data = NULL)
+    private function setRequestData($resource, $data = NULL, $request = NULL)
     {
 	
 	$this->bmRequestURI = $resource;
 	
-	$data = $this->getRequest();
+	$data = $this->getRequest($data, $request);
 	
-	$this->buildHeader();
+	header($this->buildHeader());
 	
 	if($this->dataType === TRUE && $this->convertData === TRUE)
 	{
@@ -1338,26 +2549,50 @@ class billoWrap {
     {
 	return $this->getJsonDecode(json_encode((array) simplexml_load_string($data)), $options);
     }
-    
-    
 
     /**
      * Description: get the request from server with curl send
      * 
+     * @param mixed $data XML or JSON
+     * @param string $request Resource Request URL
+     * 
      * @return string
      * 
      */
-    private function getRequest()
+    private function getRequest($data = NULL, $request = NULL)
     {
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_HEADER, FALSE);
-	curl_setopt($ch, CURLOPT_URL, $this->setRequestURL($this->bmRequestURI));
-	curl_setopt($ch, CURLOPT_HTTPHEADER, array("X-BillomatApiKey: " . $this->bmApiKey, sprintf("Accept: application/%s", $this->getHeaderAccept())));
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-	curl_setopt ($ch, CURLOPT_HTTPGET, TRUE);
 	
-	$return = curl_exec($ch);
-	curl_close($ch);
+	
+	$this->curl = curl_init();
+	curl_setopt($this->curl, CURLOPT_HEADER, FALSE);
+	curl_setopt($this->curl, CURLOPT_URL, $this->setRequestURL($this->bmRequestURI));
+	
+	switch($request)
+	{
+	    case NULL:
+		$request = 'GET';
+		break;
+	    
+	    case 'post':
+		$request = 'POST';
+		curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data);
+		break;
+	    
+	    case 'put':
+		$request = 'PUT';
+		break;
+	    
+	    case 'delete':
+		$request = 'DELETE'; 
+		break;
+	}
+	
+	curl_setopt($this->curl, CURLOPT_HTTPHEADER, array(sprintf("X-BillomatApiKey: %s", $this->bmApiKey), $this->buildHeader(),sprintf("Accept: application/%s", $this->getHeaderAccept())));
+	curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, TRUE);
+	curl_setopt ($this->curl, CURLOPT_CUSTOMREQUEST, $request);
+	
+	$return = curl_exec($this->curl);
+	curl_close($this->curl);
 	
 	return $return;
     }
