@@ -3,7 +3,7 @@
 billoWrap
 =========
 
-Used to retrive from billom.net data and change it for your individual Application.
+Used to retrive data from billom.net and change it for your individual Application.
 
 Parameters
 ----------
@@ -65,33 +65,81 @@ Now take a look how we retrive Data from the "billomat API" we choose for this e
 
     
         $billoWrap = new billoWrap($bmId, $bmApiKey, $dataType, $convertData);
+        
+
+### Read Method for special data or List all.
+Datatype will be which you set in the param 'dataType' (look the description of variable $dataType):
+
+        $id = 12345; // the id for special Client you want to show
     
-        $data = $billoWrap->getClients();
-        print_r($data);
-
-
-Now we want to choose one special Client, therefor we only define the id for it.
-
-        require_once 'billowrap.php';
-    
-        $billoWrap = new billoWrap($bmId, $bmApiKey, $dataType, $convertData);
-
-        $id = 12345; // the Client you want to show
-    
+    	// Output all data from Client output will be which you deside in $dataType
         $singleData = $billoWrap->getSingleClient($id); 
         print_r($singleData);
     
+    	// Output all data from Client
         $allData = $billoWrap->getAllClients(); 
         print_r($allData);
 
 
+### Adding Method for a special data:
+        
+        // string for datatransfer you are using JSON or XML which you predefined on dataType for reques type data
+        $data = '{
+            
+            "client" : {
+                "first_name"    : "Max",
+                "last_name"     : "Mustermann"
+            }
+            
+        }';
+        
+        $billoWrap->addClient($data);
+        
+### Edit Method for a data:
+
+        // special client id integer
+        $clientID = 1234;
+        
+        // send data which you want to edit same es add for dataType
+        $data = '{
+            
+            "client" : {
+                "first_name"    : "Mustermann",
+                "last_name"     : "Max"
+            }
+            
+        }';
+        
+        $billoWrap->editClient($client_id, $data);
+        
+### Delete Method for deleting the data:
+        
+        $clientID = 1234;
+        
+        // just say which client id you want to delete and it is done
+        $billoWrap->delClient($clientID);
+
 ## Changelog
 
-### BilloWrap 1.0.5
+### billoWrap 1.0.7
+
+* Debuged the PUT HTTP header doesn´t send the datafields that´s why edit methods didn´t work
+* Updated Changelog for version 1.0.6
+
+### billoWrap 1.0.6
+
+* Added all possible constant resource
+* Added HTTP verbs GET, POST, PUT, DELETE
+* Added all possible for adding
+* Added all possible for editing
+* Added all possible for deleting
+* Corrected wrong conventions of methods
+
+### billoWrap 1.0.5
 
 * Added all resources that exist in Billomat - API only for reading, not yet ready filterfunction, POST, PUT and DELETE
 * Function name conventions were changed example for list of clients `getAllClients()` ans example for getting a single client `getSingleClient(1234)`
 
-### BilloWrap 1.0.0 
+### billoWrap 1.0.0 
 
 * Uploaded File
