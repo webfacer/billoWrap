@@ -2,13 +2,15 @@
 /**
  * Wrapper for the billomat-API
  *
- * @version 1.0.6
+ * @version 1.0.7
  * @author Davor Ilic
  * @adapted http://code.google.com/p/billomatwrapper/source/browse/trunk/billomat.php
  * @license GNU General Public License v3 <http://www.gnu.org/licenses/gpl-3.0.html>
  * @link http://www.billomat.com/api/
- * @last-update: 10-08-2012 23:30
+ * @last-update: 04-10-2012 22:08
  */
+
+
 class billoWrap {
     /**
      * Constants for the available API resources
