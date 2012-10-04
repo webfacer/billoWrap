@@ -110,7 +110,7 @@ Datatype will be which you set in the param 'dataType' (look the description of 
             
         }';
         
-        $billoWrap->editClient($client_id, $data);
+        $billoWrap->editClient($clientID, $data);
         
 ### Delete Method for deleting the data:
         
