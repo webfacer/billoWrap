@@ -303,7 +303,7 @@ class billoWrap {
      */
     public function editClient($id, $data = NULL)
     {
-	return $this->setRequestData(sprintf(self::RESOURCE_CLIENT, $id), $data, 'put');
+	return $this->setRequestData(sprintf(self::RESOURCE_CLIENT, $id), $data, 'post');
     }
     
     
@@ -429,7 +429,7 @@ class billoWrap {
      */
     public function getSingleArticle($id = null)
     {
-	return $this->setRequestData(sprintf(self::RESOURCE_ARTICLES, $id));
+	return $this->setRequestData(sprintf(self::RESOURCE_ARTICLE, $id));
     }
     
     
@@ -2574,19 +2574,26 @@ class billoWrap {
 		break;
 	    
 	    case 'post':
-		$request = 'POST';
+	    case 'put':
+		
+		if($request == 'post')
+		{
+		    $request = 'POST';
+		}
+		elseif($request == 'put')
+		{
+		    $request = 'PUT';
+		}
+		
 		curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data);
 		break;
 	    
-	    case 'put':
-		$request = 'PUT';
-		break;
-	    
 	    case 'delete':
-		$request = 'DELETE'; 
+		$request = 'DELETE';
 		break;
 	}
-	
+	#print $request;
+	#die()
 	curl_setopt($this->curl, CURLOPT_HTTPHEADER, array(sprintf("X-BillomatApiKey: %s", $this->bmApiKey), $this->buildHeader(),sprintf("Accept: application/%s", $this->getHeaderAccept())));
 	curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, TRUE);
 	curl_setopt ($this->curl, CURLOPT_CUSTOMREQUEST, $request);
