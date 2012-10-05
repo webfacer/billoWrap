@@ -56,6 +56,7 @@ If true the request is done by socket, otherwise by curl.
 ## Usage Example
 
 Now take a look how we retrive Data from the "billomat API" we choose for this example to get all our Clients
+
         require_once 'billowrap.php';
 
         $bmId = 'YourBillomatID'; // this is your billomatID you use to login
@@ -124,7 +125,7 @@ Datatype will be which you set in the param 'dataType' (look the description of 
 ### billoWrap 1.0.7
 
 * Debuged the PUT HTTP header doesn´t send the datafields that´s why edit methods didn´t work
-* Updated Changelog for version 1.0.6
+* Updated Doku for version 1.0.6
 
 ### billoWrap 1.0.6
 
