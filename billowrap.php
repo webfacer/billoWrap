@@ -2,20 +2,21 @@
 /**
  * Wrapper for the billomat-API
  *
- * @version 1.0.7
+ * @version 1.0.11
  * @author Davor Ilic
  * @adapted http://code.google.com/p/billomatwrapper/source/browse/trunk/billomat.php
  * @license GNU General Public License v3 <http://www.gnu.org/licenses/gpl-3.0.html>
  * @link http://www.billomat.com/api/
- * @last-update: 04-10-2012 22:08
+ * @last-update: 08-10-2012 21:30
  */
 
 
 class billoWrap {
+    
+    
     /**
      * Constants for the available API resources
      */
-    
     
     //Clientresources
     const RESOURCE_CLIENTS = 'clients';
@@ -198,7 +199,7 @@ class billoWrap {
     
     /**
      * The Datatype of the output
-     * @var string
+     * @var bool
      */
     private $dataType; // for using Json false XML
     
@@ -253,7 +254,7 @@ class billoWrap {
      * @param string The billomat API Key
      * @param boolean output JSON-Object (if true, default), otherwise it will output XML-Object (if false)
      * @param boolean convert Objectdata to (if true) Array (if false, default)
-     * @param boolean Use socket (if true) or curl (if false, default)
+     * @param boolean Use socket (if true) or curl (if false, default) Notice: it´s not working yet
      */
     public function __construct($bmId, $bmApiKey, $dataType = TRUE, $convertData = FALSE, $useSocket = FALSE) 
     {
@@ -266,8 +267,10 @@ class billoWrap {
     
     
     /**
-     *  
-     * @param string List all clients
+     * 
+     * List all clients
+     * 
+     * @return mixed JSON - or XML-Object also Array
      * 
      */
     public function getAllClients()
@@ -277,8 +280,11 @@ class billoWrap {
     
     
     /**
+     * Show a specific Client
      * 
-     * @param string Show a specific client
+     * @param int $id specific client ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleClient($id = NULL)
@@ -288,9 +294,11 @@ class billoWrap {
     
     
     /**
-     *  
-     * @param string Create a client
+     * Create a client
      * 
+     * @param string $data JSON or XML you send
+     * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addClient($data = NULL)
     {
@@ -299,8 +307,10 @@ class billoWrap {
     
     
     /**
-     *  
-     * @param string Edit client
+     * Edit client
+     * 
+     * @param int $id specific client ID
+     * @param string $data your JSON or XML you send
      * 
      */
     public function editClient($id, $data = NULL)
@@ -310,8 +320,9 @@ class billoWrap {
     
     
     /**
-     *  
-     * @param string Delete client
+     * Delete client
+     * 
+     * @param int $id client ID
      * 
      */
     public function delClient($id)
@@ -321,8 +332,11 @@ class billoWrap {
     
     
     /**
+     * List all properties of a client
      * 
-     * @param string List all properties of a client
+     * @param int $id specific client ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllClientPropertyValues($client_id) 
@@ -332,8 +346,11 @@ class billoWrap {
     
     
     /**
+     * Get a single client property 
      * 
-     * @param string Get a single property
+     * @param int $id specific client property ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleClientPropertyValue($id = NULL)
@@ -343,68 +360,75 @@ class billoWrap {
     
     
     /**
-     *  
-     * @param string Set client property
+     * Create a client property value
      * 
+     * @param string $data JSON or XML you send
+     * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addClientPropertyValue($data = NULL)
     {
 	return $this->setRequestData(self::RESOURCE_CLIENT_PROPERTYVALUES, $data, 'post');
     }
-
-
+    
     
     /**
+     * List all client tags
      * 
-     * @param string List all tags (tagcloud)
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllClientTags()
     {
 	return $this->setRequestData(self::RESOURCE_CLIENT_TAGS);
     }
-
-
+    
     
     /**
+     * Get a single client tag
      * 
-     * @param string Get a single tag
+     * @param int $id specific client tag ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleClientTag($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CLIENT_TAG, $id));
     }
-
-
+    
     
     /**
+     * Create a client tag
      * 
-     * @param string Create a client tag
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addClientTag($data = NULL)
     {
 	return $this->setRequestData(self::RESOURCE_CLIENT_TAGS, $data, 'post');
     }
-
-
+    
     
     /**
+     * Delete client tag
      * 
-     * @param string Delete tags (tagcloud)
+     * @param int $id client tag ID
      * 
      */
     public function delClientTag($id)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CLIENT_TAG, $id), NULL, 'delete');
     }
-
-
+    
     
     /**
+     * Get a specific customfield
      * 
-     * @param string Get client customfield
+     * @param int $id specific client id ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getClientCustomField($client_id = NULL)
@@ -414,8 +438,9 @@ class billoWrap {
     
     
     /**
+     * List all articles
      * 
-     * @param string List all articles
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllArticles()
@@ -425,8 +450,11 @@ class billoWrap {
     
     
     /**
+     * Show a specific article
      * 
-     * @param string Show a specific article
+     * @param int $id specific article ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleArticle($id = null)
@@ -436,9 +464,11 @@ class billoWrap {
     
     
     /**
-     * Note: not work yet
-     * @param string List all articles
+     * Create a article
      * 
+     * @param string $data JSON or XML you send
+     * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addArticle($data = NULL)
     {
@@ -447,7 +477,10 @@ class billoWrap {
     
     
     /**
-     * @param string Edit article
+     * Edit article
+     * 
+     * @param int $id article ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editArticle($id, $data = NULL)
@@ -457,18 +490,23 @@ class billoWrap {
     
     
     /**
-     * @param string Delete article
+     * Delete article
+     * 
+     * @param int $id article ID
      * 
      */
     public function delArticle($id)
     {
-	return $this->setRequestData(sprintf(self::RESOURCE_ARTICLE, $id), NULL, 'delete');
+	$this->setRequestData(sprintf(self::RESOURCE_ARTICLE, $id), NULL, 'delete');
     }
     
     
     /**
+     * List all properties of a article
      * 
-     * @param string List all Article properties
+     * @param int $id specific article ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllArticlePropertyValues($article_id)
@@ -478,8 +516,11 @@ class billoWrap {
     
     
     /**
+     * Get a single article property
      * 
-     * @param string Get a single Article property
+     * @param int $id specific article property ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleArticlePropertyValue($id)
@@ -489,9 +530,11 @@ class billoWrap {
     
     
     /**
+     * Create a article property value
      * 
-     * @param string Add Article properties
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addArticlePropertyValue($data = NULL)
     {
@@ -500,8 +543,9 @@ class billoWrap {
     
     
     /**
+     * List all properties of a client
      * 
-     * @param string List all Article tags (tagcloud)
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllArticleTags()
@@ -511,8 +555,11 @@ class billoWrap {
     
     
     /**
+     * Get a single article tag
      * 
-     * @param string Get a single Article tag
+     * @param int $id specific article tag ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleArticleTag($id = NULL)
@@ -522,9 +569,11 @@ class billoWrap {
     
     
     /**
+     * Create a article tag
      * 
-     * @param string Add Article tags (tagcloud)
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addArticleTag($data = NULL)
     {
@@ -533,8 +582,9 @@ class billoWrap {
     
     
     /**
+     * Delete article tag
      * 
-     * @param string Delete Article tag (tagcloud)
+     * @param int $id article tag ID
      * 
      */
     public function delArticleTag($id)
@@ -544,8 +594,9 @@ class billoWrap {
     
     
     /**
+     * List all units
      * 
-     * @param string List all units
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllUnits()
@@ -555,8 +606,11 @@ class billoWrap {
     
     
     /**
+     * Show a specific unit
      * 
-     * @param string Show a specific unit
+     * @param int $id specific unit ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleUnit($id = NULL)
@@ -566,9 +620,11 @@ class billoWrap {
     
     
     /**
+     * Create a unit
      * 
-     * @param string List all units
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addUnits($data = NULL)
     {
@@ -577,8 +633,10 @@ class billoWrap {
     
     
     /**
+     * Edit unit
      * 
-     * @param string Edit unit
+     * @param int $id unit ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editUnits($id, $data = NULL)
@@ -588,8 +646,9 @@ class billoWrap {
     
     
     /**
+     * Delete unit
      * 
-     * @param string Delete unit
+     * @param int $id unit ID
      * 
      */
     public function delUnits($id)
@@ -599,8 +658,9 @@ class billoWrap {
     
     
     /**
+     * List all invoices
      * 
-     * @param string List all invoices
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllInvoices()
@@ -610,8 +670,11 @@ class billoWrap {
     
     
     /**
+     * Get a single invoice
      * 
-     * @param string Get single invoices
+     * @param int $id specific invoice ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleInvoices($id = NULL)
@@ -621,9 +684,11 @@ class billoWrap {
     
     
     /**
+     * Create a invoice
      * 
-     * @param string List all invoices
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addInvoice($data = NULL)
     {
@@ -632,8 +697,10 @@ class billoWrap {
     
     
     /**
+     * Edit invoice
      * 
-     * @param string Edit invoice
+     * @param int $id invoice ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editInvoice($id, $data = NULL)
@@ -643,8 +710,9 @@ class billoWrap {
     
     
     /**
+     * Delete invoice
      * 
-     * @param string Delete invoice
+     * @param int $id invoice ID
      * 
      */
     public function delInvoice($id)
@@ -654,8 +722,11 @@ class billoWrap {
     
     
     /**
+     * List all invoice items
      * 
-     * @param string List all invoice items
+     * @param int $id specific invoice ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllInvoiceItems($invocice_id = NULL)
@@ -665,8 +736,11 @@ class billoWrap {
     
     
     /**
+     * Get a single invoice item
      * 
-     * @param string Get a single invoice item
+     * @param int $id specific invoice item ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleInvoiceItem($id = NULL)
@@ -676,9 +750,11 @@ class billoWrap {
     
     
     /**
+     * Create a inoice item
      * 
-     * @param string List all invoice items
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addInvoiceItem($data = NULL)
     {
@@ -687,8 +763,10 @@ class billoWrap {
     
     
     /**
+     * Edit invoice item
      * 
-     * @param string Edit invoice item
+     * @param int $id invoice item ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editInvoiceItem($id, $data = NULL)
@@ -698,8 +776,9 @@ class billoWrap {
     
     
     /**
+     * Delete invoice item
      * 
-     * @param string Delete invoice item
+     * @param int $id invoice item ID
      * 
      */
     public function delInvoiceItem($id)
@@ -709,8 +788,11 @@ class billoWrap {
     
     
     /**
+     * List all comments of an invoice
      * 
-     * @param string List all comments of an invoice
+     * @param int $id specific invoice ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllInvoiceComments($invoice_id = NULL)
@@ -720,8 +802,11 @@ class billoWrap {
     
     
     /**
+     * Get a single invoice comment
      * 
-     * @param string Get single invoice comment
+     * @param int $id specific invoice comment ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleInvoiceComment($id = NULL)
@@ -731,9 +816,11 @@ class billoWrap {
     
     
     /**
+     * Create a invoice comment
      * 
-     * @param string List all comments of an invoice
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addInvoiceComment($data = NULL)
     {
@@ -742,8 +829,9 @@ class billoWrap {
     
     
     /**
+     * Delete invoice comment
      * 
-     * @param string Delete invoice comment
+     * @param int $id invoice comment ID
      * 
      */
     public function delInvoiceComment($id)
@@ -753,8 +841,9 @@ class billoWrap {
     
     
     /**
+     * List all invoice payments
      * 
-     * @param string List all invoice payments
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllInvoicePayments()
@@ -764,8 +853,11 @@ class billoWrap {
     
     
     /**
+     * Get a single invoice payment
      * 
-     * @param string Get single invoice payment
+     * @param int $id specific invoice payment ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleInvoicePayment($id = NULL)
@@ -775,9 +867,11 @@ class billoWrap {
     
     
     /**
+     * Create a invoice payment
      * 
-     * @param string List all invoice payments
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addInvoicePayment($data = NULL)
     {
@@ -786,8 +880,9 @@ class billoWrap {
     
     
     /**
+     * Delete invoice payment
      * 
-     * @param string Delete invoice payment
+     * @param int $id invoice payment ID
      * 
      */
     public function delInvoicePayment($id)
@@ -797,8 +892,9 @@ class billoWrap {
     
     
     /**
+     * List all invoice tags
      * 
-     * @param string List all invoice tags (tagcloud)
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllInvoiceTags()
@@ -808,8 +904,11 @@ class billoWrap {
     
     
     /**
+     * Get a single invoice tag
      * 
-     * @param string Get single invoice tag
+     * @param int $id specific invoice tag ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleInvoiceTag($id = NULL)
@@ -819,9 +918,11 @@ class billoWrap {
     
     
     /**
+     * Create a invoice tag
      * 
-     * @param string List all invoice tags (tagcloud)
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addInvoiceTag($data = NULL)
     {
@@ -830,8 +931,9 @@ class billoWrap {
     
     
     /**
+     * Delete invoice tag
      * 
-     * @param string Delete invoice tag
+     * @param int $id invoice tag ID
      * 
      */
     public function delInvoiceTag($id)
@@ -841,8 +943,9 @@ class billoWrap {
     
     
     /**
+     * List all recurrings
      * 
-     * @param string List all recurrings
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllRecurrings()
@@ -852,8 +955,11 @@ class billoWrap {
     
     
     /**
+     * Get a single recurring
      * 
-     * @param string Get a single recurring
+     * @param int $id specific recurring ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleRecurring($id = NULL)
@@ -863,9 +969,11 @@ class billoWrap {
     
     
     /**
+     * Create a recurring
      * 
-     * @param string List all recurrings
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addRecurring($data = NULL)
     {
@@ -874,8 +982,10 @@ class billoWrap {
     
     
     /**
+     * Edit recurring
      * 
-     * @param string Edit recurring
+     * @param int $id recurring ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editRecurring($id, $data = NULL)
@@ -885,8 +995,9 @@ class billoWrap {
     
     
     /**
+     * Delete recurring
      * 
-     * @param string Delete recurring
+     * @param int $id recurring ID
      * 
      */
     public function delRecurring($id)
@@ -896,8 +1007,11 @@ class billoWrap {
     
     
     /**
+     * List all recurring items
      * 
-     * @param string List all recurring items
+     * @param int $id specific recurring item ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllRecurringItems($recurring_id = NULL)
@@ -907,8 +1021,11 @@ class billoWrap {
     
     
     /**
+     * Get a single recurring item
      * 
-     * @param string Get a single recurring item
+     * @param int $id specific recurring item ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleRecurringItem($id = NULL)
@@ -918,9 +1035,11 @@ class billoWrap {
     
     
     /**
+     * Create a recurring item
      * 
-     * @param string List all recurring items
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addRecurringItem($data = NULL)
     {
@@ -929,8 +1048,10 @@ class billoWrap {
     
     
     /**
+     * Edit recurring item
      * 
-     * @param string Edit recurring items
+     * @param int $id recurring item ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editRecurringItem($id, $data = NULL)
@@ -940,8 +1061,9 @@ class billoWrap {
     
     
     /**
+     * Delete recurring item
      * 
-     * @param string Delete recurring items
+     * @param int $id recurring item ID
      * 
      */
     public function delRecurringItem($id)
@@ -951,8 +1073,9 @@ class billoWrap {
     
     
     /**
+     * List all recurring tags
      * 
-     * @param string List all recurring tags (tagcloud)
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllRecurringTags()
@@ -962,8 +1085,11 @@ class billoWrap {
     
     
     /**
+     * Get a single recurring tag
      * 
-     * @param string Get a single recurring tag
+     * @param int $id specific recurring tag ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleRecurringTag($id = NULL)
@@ -973,9 +1099,11 @@ class billoWrap {
     
     
     /**
+     * Create a recurring tag
      * 
-     * @param string List all recurring tags (tagcloud)
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addRecurringTag($data = NULL)
     {
@@ -984,8 +1112,9 @@ class billoWrap {
     
     
     /**
+     * Delete recurring tag
      * 
-     * @param string Delete recurring tag
+     * @param int $id recurring tag ID
      * 
      */
     public function delRecurringTag($id)
@@ -995,8 +1124,9 @@ class billoWrap {
     
     
     /**
+     * List all estimates
      * 
-     * @param string List all estimates
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllOffers()
@@ -1006,8 +1136,11 @@ class billoWrap {
     
     
     /**
+     * Get a single estimate
      * 
-     * @param string Get a single estimate
+     * @param int $id specific offer ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleOffer($id = NULL)
@@ -1017,9 +1150,11 @@ class billoWrap {
     
     
     /**
+     * Create a estimate
      * 
-     * @param string List all estimates
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addOffer($data = NULL)
     {
@@ -1028,8 +1163,10 @@ class billoWrap {
     
     
     /**
+     * Edit estimate
      * 
-     * @param string Edit estimates
+     * @param int $id offer ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editOffer($id, $data = NULL)
@@ -1039,8 +1176,9 @@ class billoWrap {
     
     
     /**
+     * Delete estimate
      * 
-     * @param string Delete estimates
+     * @param int $id offer ID
      * 
      */
     public function delOffer($id)
@@ -1050,8 +1188,11 @@ class billoWrap {
     
     
     /**
+     * List all estimate items
      * 
-     * @param string List all estimate items
+     * @param int $id specific offer ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllOfferItems($offer_id = NULL)
@@ -1061,8 +1202,11 @@ class billoWrap {
     
     
     /**
+     * Get a single estimate item
      * 
-     * @param string Get a single estimate item
+     * @param int $id specific offer item ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleOfferItem($id = NULL)
@@ -1072,9 +1216,11 @@ class billoWrap {
     
     
     /**
+     * Create a offer item
      * 
-     * @param string List all estimate items
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addOfferItem($data = NULL)
     {
@@ -1083,8 +1229,10 @@ class billoWrap {
     
     
     /**
+     * Edit estimate item
      * 
-     * @param string Edit estimate items
+     * @param int $id offer item ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editOfferItem($id, $data = NULL)
@@ -1094,8 +1242,9 @@ class billoWrap {
     
     
     /**
+     * Delete estimate item
      * 
-     * @param string Delete estimate items
+     * @param int $id offer item ID
      * 
      */
     public function delOfferItem($id)
@@ -1105,8 +1254,11 @@ class billoWrap {
     
     
     /**
+     * List all comments of an estimate
      * 
-     * @param string List all comments of an estimate
+     * @param int $id specific offer ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllOfferComments($offer_id = NULL)
@@ -1116,8 +1268,11 @@ class billoWrap {
     
     
     /**
+     * Get a single offer comment
      * 
-     * @param string Get single  List all tags (tagcloud) comment
+     * @param int $id specific offer comment ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleOfferComment($id = NULL)
@@ -1127,9 +1282,11 @@ class billoWrap {
     
     
     /**
+     * Create a offer comment
      * 
-     * @param string List all comments of an estimate
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addOfferComment($data = NULL)
     {
@@ -1138,19 +1295,9 @@ class billoWrap {
     
     
     /**
+     * Delete estimate comment
      * 
-     * @param string Edit comments of an estimate
-     * 
-     */
-    public function editOfferComment($id, $data = NULL)
-    {
-	return $this->setRequestData(sprintf(self::RESOURCE_OFFER_COMMENT, $id), $data, 'put');
-    }
-    
-    
-    /**
-     * 
-     * @param string Delete comments of an estimate
+     * @param int $id offer comment ID
      * 
      */
     public function delOfferComment($id)
@@ -1160,8 +1307,9 @@ class billoWrap {
     
     
     /**
+     * List all estimate tags
      * 
-     * @param string List all estimate tags (tagcloud)
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllOfferTags()
@@ -1171,8 +1319,11 @@ class billoWrap {
     
     
     /**
+     * Get a single offer tag
      * 
-     * @param string Get single estimate tag
+     * @param int $id specific offer tag ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleOfferTag($id = NULL)
@@ -1182,9 +1333,11 @@ class billoWrap {
     
     
     /**
+     * Create a offer tag
      * 
-     * @param string List all estimate tags (tagcloud)
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addOfferTag($data = NULL)
     {
@@ -1193,8 +1346,9 @@ class billoWrap {
     
     
     /**
+     * Delete estimate tag
      * 
-     * @param string Delete estimate tag
+     * @param int $id offer tag ID
      * 
      */
     public function delOfferTag($id)
@@ -1204,8 +1358,9 @@ class billoWrap {
     
     
     /**
+     * List all credit notes
      * 
-     * @param string List all credit notes
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllCreditNotes()
@@ -1215,8 +1370,11 @@ class billoWrap {
     
     
     /**
+     * Get a single credit note
      * 
-     * @param string Get a single credit note
+     * @param int $id specific credit note ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleCreditNote($id = NULL)
@@ -1226,9 +1384,11 @@ class billoWrap {
     
     
     /**
+     * Create a credit note
      * 
-     * @param string Create credit note
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addCreditNote($data = NULL)
     {
@@ -1237,9 +1397,10 @@ class billoWrap {
     
     
     /**
+     * Edit credit note
      * 
-     * @param int Edit credit note
-     * @param mixed XML or JSON
+     * @param int $id credit note ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editCreditNote($id, $data = NULL)
@@ -1249,8 +1410,9 @@ class billoWrap {
     
     
     /**
+     * Delete estimate note
      * 
-     * @param int Delete credit note
+     * @param int $id offer note ID
      * 
      */
     public function delCreditNote($id)
@@ -1260,8 +1422,11 @@ class billoWrap {
     
     
     /**
+     * List all credit note items
      * 
-     * @param string List all Credit note items
+     * @param int $id specific credit note ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllCreditNoteItems($credit_note_id = NULL)
@@ -1271,8 +1436,11 @@ class billoWrap {
     
     
     /**
+     * Get a Credit note item
      * 
-     * @param string Get a Credit note item
+     * @param int $id specific credit note item ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleCreditNoteItem($id = NULL)
@@ -1282,9 +1450,11 @@ class billoWrap {
     
     
     /**
+     * Create a credit note item
      * 
-     * @param string List all Credit note items
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addCreditNoteItem($data = NULL)
     {
@@ -1293,9 +1463,10 @@ class billoWrap {
     
     
     /**
+     * Edit credit note item
      * 
-     * @param int $id ID of 
-     * @param 
+     * @param int $id credit note item ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editCreditNoteItem($id, $data = NULL)
@@ -1305,8 +1476,9 @@ class billoWrap {
     
     
     /**
+     * Delete estimate note item
      * 
-     * @param int $id Delete Creditnoteitem
+     * @param int $id offer note item ID
      * 
      */
     public function delCreditNoteItem($id) 
@@ -1316,8 +1488,11 @@ class billoWrap {
     
     
     /**
+     * List all comments of a credit note
      * 
-     * @param string List all comments of a credit note
+     * @param int $credit_note_id specific credit note ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllCreditNoteComments($credit_note_id = NULL)
@@ -1331,6 +1506,16 @@ class billoWrap {
      * @param string Get a single comment
      * 
      */
+    
+    
+    /**
+     * Get a single credit note comment
+     * 
+     * @param int $id specific creidt note comment ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
+     * 
+     */
     public function getSingleCreditNoteComment($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CREDITNOTE_COMMENT, $id));
@@ -1338,9 +1523,11 @@ class billoWrap {
     
     
     /**
+     * Create a credit note comment
      * 
-     * @param string List all comments of a credit note
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addCreditNoteComment($data = NULL)
     {
@@ -1349,8 +1536,9 @@ class billoWrap {
     
     
     /**
+     * Delete estimate note comment
      * 
-     * @param string List all comments of a credit note
+     * @param int $id offer note comment ID
      * 
      */
     public function delCreditNoteComment($id)
@@ -1360,8 +1548,9 @@ class billoWrap {
     
     
     /**
+     * List all payment credit notes
      * 
-     * @param string List all payments of a credit note
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllCreditNotePayemts()
@@ -1371,8 +1560,11 @@ class billoWrap {
     
     
     /**
+     * Get a single payment of a credit note payment
      * 
-     * @param string Get a single payment of a credit note
+     * @param int $id specific credit note payment ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleCreditNotePayemt($id = NULL)
@@ -1382,9 +1574,11 @@ class billoWrap {
     
     
     /**
+     * Create a credit note payment
      * 
-     * @param string List all payments of a credit note
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addCreditNotePayemt($data = NULL)
     {
@@ -1393,8 +1587,9 @@ class billoWrap {
     
     
     /**
+     * Delete estimate note payment
      * 
-     * @param string Delete credit note payment
+     * @param int $id offer note payment ID
      * 
      */
     public function delCreditNotePayemt($id)
@@ -1404,8 +1599,9 @@ class billoWrap {
     
     
     /**
+     * List all credit note tags
      * 
-     * @param string List all tags (tagcloud) of a credit note
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllCreditNoteTags()
@@ -1415,8 +1611,11 @@ class billoWrap {
     
     
     /**
+     * Get a single credit note tag 
      * 
-     * @param string Get a single credit note tag (tagcloud)
+     * @param int $id specific credit note tag ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleCreditNoteTag($id = NULL)
@@ -1426,9 +1625,11 @@ class billoWrap {
     
     
     /**
+     * Create a credit note tag
      * 
-     * @param string List all tags (tagcloud) of a credit note
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addCreditNoteTag($data = NULL)
     {
@@ -1437,8 +1638,9 @@ class billoWrap {
     
     
     /**
+     * Delete estimate note tag
      * 
-     * @param string Delete a credit note tag
+     * @param int $id offer note tag ID
      * 
      */
     public function delCreditNoteTag($id)
@@ -1448,8 +1650,9 @@ class billoWrap {
     
     
     /**
+     * List all confirmations
      * 
-     * @param string List all confirmations
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllConfirmations()
@@ -1459,8 +1662,11 @@ class billoWrap {
     
     
     /**
+     * Get a single confirmation
      * 
-     * @param string Get single confirmation
+     * @param int $id specific confirmation ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleConfirmation($id = NULL)
@@ -1470,9 +1676,11 @@ class billoWrap {
     
     
     /**
+     * Create a confirmation
      * 
-     * @param string List all confirmations
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addConfirmation($data = NULL)
     {
@@ -1481,8 +1689,10 @@ class billoWrap {
     
     
     /**
+     * Edit confirmation
      * 
-     * @param string Create a confirmation
+     * @param int $id confirmation ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editConfirmation($id, $data = NULL)
@@ -1492,8 +1702,9 @@ class billoWrap {
     
     
     /**
+     * Delete confirmation
      * 
-     * @param string Create a confirmation
+     * @param int $id confirmation ID
      * 
      */
     public function delConfirmation($id)
@@ -1503,8 +1714,11 @@ class billoWrap {
     
     
     /**
+     * List all confirmation items
      * 
-     * @param string List all confirmation items
+     * @param int $id specific confirmation ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllConfirmationItems($confirmation_id = NULL)
@@ -1514,8 +1728,11 @@ class billoWrap {
     
     
     /**
+     * Get a single confirmation item
      * 
-     * @param string Get a single confirmation item
+     * @param int $id specific confirmation item ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleConfirmationItem($id = NULL)
@@ -1525,9 +1742,11 @@ class billoWrap {
     
     
     /**
+     * Create a confirmation item
      * 
-     * @param string List all confirmations
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addConfirmationItem($data = NULL)
     {
@@ -1536,8 +1755,10 @@ class billoWrap {
     
     
     /**
+     * Edit confirmation item
      * 
-     * @param string Edit a confirmation item
+     * @param int $id confirmation item ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editConfirmationItem($id, $data = NULL)
@@ -1547,8 +1768,9 @@ class billoWrap {
     
     
     /**
+     * Delete confirmation tag
      * 
-     * @param string Delete a confirmation item
+     * @param int $id confirmation tag ID
      * 
      */
     public function delConfirmationItem($id)
@@ -1558,8 +1780,11 @@ class billoWrap {
     
     
     /**
+     * List all confirmation items
      * 
-     * @param string List all confirmation items
+     * @param int $id specific confirmation ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllConfirmationComments($confirmation_id = NULL)
@@ -1573,6 +1798,16 @@ class billoWrap {
      * @param string Get a single item of a confirmation
      * 
      */
+    
+    
+    /**
+     * Get a sindlge confirmation comment
+     * 
+     * @param int $id specific confirmation comment ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
+     * 
+     */
     public function getSingleConfirmationComment($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CONFIRMATION_TAG, $id));
@@ -1580,9 +1815,11 @@ class billoWrap {
     
     
     /**
+     * Create a confirmation comment
      * 
-     * @param string List all confirmations
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addConfirmationComment($data = NULL)
     {
@@ -1591,8 +1828,9 @@ class billoWrap {
     
     
     /**
+     * Delete confirmation comment
      * 
-     * @param string Delete a confirmation comment
+     * @param int $id confirmation comment ID
      * 
      */
     public function delConfirmationComment($id)
@@ -1602,8 +1840,9 @@ class billoWrap {
     
     
     /**
+     * List all confiratmion tags
      * 
-     * @param string List all tags (tagcloud) of a confirmation
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllConfirmationTags()
@@ -1613,8 +1852,11 @@ class billoWrap {
     
     
     /**
+     * Get a single tag of a confirmation
      * 
-     * @param string Get single tag of a confirmation
+     * @param int $id specific unit ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleConfirmationTag($id = NULL)
@@ -1624,9 +1866,11 @@ class billoWrap {
     
     
     /**
+     * Create a confirmation tag
      * 
-     * @param string List all confirmations
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addConfirmationTag($data = NULL)
     {
@@ -1635,8 +1879,9 @@ class billoWrap {
     
     
     /**
+     * Delete confirmation tag
      * 
-     * @param string Del a confirmation tag
+     * @param int $id confirmation tag ID
      * 
      */
     public function delConfirmationTag($id)
@@ -1646,8 +1891,9 @@ class billoWrap {
     
     
     /**
+     * List all reminders
      * 
-     * @param string List all reminders
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllReminders()
@@ -1657,8 +1903,11 @@ class billoWrap {
     
     
     /**
+     * Get a single reminder
      * 
-     * @param string Get a single reminder
+     * @param int $id specific reminder ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleReminder($id = NULL)
@@ -1668,9 +1917,11 @@ class billoWrap {
     
     
     /**
+     * Create a reminder
      * 
-     * @param string List all reminders
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addReminder($data = NULL)
     {
@@ -1679,8 +1930,10 @@ class billoWrap {
     
     
     /**
+     * Edit reminder
      * 
-     * @param string Create a reminder
+     * @param int $id reminder ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editReminder($id, $data = NULL)
@@ -1690,8 +1943,9 @@ class billoWrap {
     
     
     /**
+     * Delete reminder
      * 
-     * @param string Delete a reminder
+     * @param int $id reminder ID
      * 
      */
     public function delReminder($id)
@@ -1701,8 +1955,11 @@ class billoWrap {
     
     
     /**
+     * List all reminder items
      * 
-     * @param string List all reminder items
+     * @param int $id specific reminder ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllReminderItems($reminder_id = NULL)
@@ -1712,8 +1969,11 @@ class billoWrap {
     
     
     /**
+     * Get a single reminder item
      * 
-     * @param string Get a single item
+     * @param int $id specific reminder item ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleReminderItem($id = NULL)
@@ -1723,9 +1983,11 @@ class billoWrap {
     
     
     /**
+     * Create a reminder item
      * 
-     * @param string List all reminders
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addReminderItem($data = NULL)
     {
@@ -1734,8 +1996,10 @@ class billoWrap {
     
     
     /**
+     * Edit reminder item
      * 
-     * @param string Edit a reminder
+     * @param int $id reminder item ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editReminderItem($id, $data = NULL)
@@ -1745,8 +2009,9 @@ class billoWrap {
     
     
     /**
+     * Delete reminder item
      * 
-     * @param string Delete a reminder
+     * @param int $id reminder item ID
      * 
      */
     public function delReminderItem($id)
@@ -1756,8 +2021,9 @@ class billoWrap {
     
     
     /**
+     * List all reminder tags
      * 
-     * @param string List all reminder tags (tagcloud)
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllReminderTags()
@@ -1767,8 +2033,11 @@ class billoWrap {
     
     
     /**
+     * Get a single reminder tag
      * 
-     * @param string Get single reminder tag
+     * @param int $id specific reminder tag ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleReminderTag($id = NULL)
@@ -1778,9 +2047,11 @@ class billoWrap {
     
     
     /**
+     * Create a reminder tag
      * 
-     * @param string List all reminders
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addReminderTag($data = NULL)
     {
@@ -1789,8 +2060,9 @@ class billoWrap {
     
     
     /**
+     * Delete reminder tag
      * 
-     * @param string Delete a reminder
+     * @param int $id reminder tag ID
      * 
      */
     public function delReminderTag($id)
@@ -1800,8 +2072,9 @@ class billoWrap {
     
     
     /**
+     * List all delivery notes
      * 
-     * @param string List all delivery notes
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllDeliveryNotes()
@@ -1811,8 +2084,11 @@ class billoWrap {
     
     
     /**
+     * Get a single delivery note
      * 
-     * @param string Get a single delivery note
+     * @param int $id specific delivery note ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleDesliveryNote($id = NULL)
@@ -1822,9 +2098,11 @@ class billoWrap {
     
     
     /**
+     * Create a delivery note
      * 
-     * @param string List all delivery notes
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addDeliveryNote($data = NULL)
     {
@@ -1833,8 +2111,10 @@ class billoWrap {
     
     
     /**
+     * Edit delivery note
      * 
-     * @param string Edit a delivery note
+     * @param int $id delivery note ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editDeliveryNote($id, $data = NULL)
@@ -1844,8 +2124,9 @@ class billoWrap {
     
     
     /**
+     * Delete deliver note
      * 
-     * @param string Delete a delivery note
+     * @param int $id deliver note ID
      * 
      */
     public function delDeliveryNote($id)
@@ -1855,8 +2136,11 @@ class billoWrap {
     
     
     /**
+     * List all delivery note items
      * 
-     * @param string List all delivery note items
+     * @param int $id specific delivery note ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllDeliveryNoteItems($delivery_note_id = NULL)
@@ -1866,8 +2150,11 @@ class billoWrap {
     
     
     /**
+     * Get a single delivery note item
      * 
-     * @param string Get a single item of delivery note
+     * @param int $id specific delivery note item ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleDeliveryNoteItem($id = NULL)
@@ -1877,9 +2164,11 @@ class billoWrap {
     
     
     /**
+     * Create a delivery note item
      * 
-     * @param string List all delivery notes
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addDeliveryNoteItem($data = NULL)
     {
@@ -1888,8 +2177,10 @@ class billoWrap {
     
     
     /**
+     * Edit delivery note item
      * 
-     * @param string Edit a delivery note item
+     * @param int $id delivery note item ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editDeliveryNoteItem($id, $data = NULL)
@@ -1899,8 +2190,9 @@ class billoWrap {
     
     
     /**
+     * Delete deliver note item
      * 
-     * @param string Delete a delivery note item
+     * @param int $id deliver note item ID
      * 
      */
     public function delDeliveryNoteItem($id)
@@ -1910,8 +2202,11 @@ class billoWrap {
     
     
     /**
+     * List all comments of a delivery note
      * 
-     * @param string List all comments of a delivery note
+     * @param int $id specific credit note ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllDeliveryNoteComments($delivery_note_id = NULL)
@@ -1921,8 +2216,11 @@ class billoWrap {
     
     
     /**
+     * Get a single comment of a delivery note
      * 
-     * @param string Get single comment of a delivery note
+     * @param int $id specific credit note ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleDeliveryNoteComment($id = NULL)
@@ -1932,9 +2230,11 @@ class billoWrap {
     
     
     /**
+     * Create a deliver note comment
      * 
-     * @param string List all delivery note comment
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addDeliveryNoteComment($data = NULL)
     {
@@ -1943,8 +2243,9 @@ class billoWrap {
     
     
     /**
+     * Delete deliver note comment
      * 
-     * @param string Delete a delivery note comment
+     * @param int $id deliver note comment ID
      * 
      */
     public function delDeliveryNoteComment($id)
@@ -1958,6 +2259,14 @@ class billoWrap {
      * @param string List all delivery note tags (tagcloud)
      * 
      */
+    
+    
+    /**
+     * List all delivery note tags
+     * 
+     * @return mixed JSON-, XML-Object or Array
+     * 
+     */
     public function getAllDeliveryNoteTags()
     {
 	$this->setRequestData(self::RESOURCE_DELIVERIENOTE_TAGS);
@@ -1965,8 +2274,11 @@ class billoWrap {
     
     
     /**
+     * Get a single delivery note tag id
      * 
-     * @param string Get a single reminder tag
+     * @param int $id specific delivery note tag ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleDeliveryNoteTag($id = NULL)
@@ -1976,9 +2288,11 @@ class billoWrap {
     
     
     /**
+     * Create a delivery note tag
      * 
-     * @param string List all delivery notes
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addDeliveryNoteTag($data = NULL)
     {
@@ -1987,8 +2301,9 @@ class billoWrap {
     
     
     /**
+     * Delete deliver note tag
      * 
-     * @param string List all delivery notes
+     * @param int $id deliver note tag ID
      * 
      */
     public function delDeliveryNoteTag($id)
@@ -1998,8 +2313,9 @@ class billoWrap {
     
     
     /**
+     * List all templates
      * 
-     * @param string List all templates
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllTemplates()
@@ -2009,8 +2325,11 @@ class billoWrap {
     
     
     /**
+     * Show a specific template
      * 
-     * @param string Show a specific template
+     * @param int $id specific tamplate ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleTemplate($id = NULL)
@@ -2020,9 +2339,11 @@ class billoWrap {
     
     
     /**
+     * Create a template
      * 
-     * @param string List all templates
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addTemplate($data = NULL)
     {
@@ -2031,8 +2352,10 @@ class billoWrap {
     
     
     /**
+     * Edit template
      * 
-     * @param string Edit a template
+     * @param int $id template ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editTemplate($id, $data = NULL)
@@ -2042,8 +2365,9 @@ class billoWrap {
     
     
     /**
+     * Delete template
      * 
-     * @param string Edit a template
+     * @param int $id template ID
      * 
      */
     public function delTemplate($id)
@@ -2054,7 +2378,9 @@ class billoWrap {
     
     /**
      * 
-     * @param string View settings
+     * View settings
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSettings()
@@ -2064,8 +2390,9 @@ class billoWrap {
     
     
     /**
+     * Edit settings
      * 
-     * @param string Edit settings
+     * @param mixed JSON-, XML-Object or Array
      * 
      */
     public function editSettings($data)
@@ -2075,8 +2402,9 @@ class billoWrap {
     
     
     /**
+     * List all setting article properties
      * 
-     * @param string List all article properties
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllSettingArticleProperties()
@@ -2086,8 +2414,11 @@ class billoWrap {
     
     
     /**
+     * Get a single Setting: article properties
      * 
-     * @param string Get a single article property
+     * @param int $id specific article-property ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleSettingArticleProperties($id = NULL)
@@ -2097,9 +2428,11 @@ class billoWrap {
     
     
     /**
+     * Create a article property
      * 
-     * @param string List all article properties
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addSettingArticleProperty($data = NULL)
     {
@@ -2108,8 +2441,10 @@ class billoWrap {
     
     
     /**
+     * Edit article property
      * 
-     * @param string Edit a article propertie
+     * @param int $id article property ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editSettingArticleProperty($id, $data = NULL)
@@ -2119,8 +2454,9 @@ class billoWrap {
     
     
     /**
+     * Delete article property
      * 
-     * @param string Delete a article propertie
+     * @param int $id article ID
      * 
      */
     public function delSettingArticleProperty($id)
@@ -2134,6 +2470,14 @@ class billoWrap {
      * @param string List all client properties
      * 
      */
+    
+    
+    /**
+     * List all settings of article properties
+     * 
+     * @return mixed JSON-, XML-Object or Array
+     * 
+     */
     public function getAllSettingClientProperties()
     {
 	$this->setRequestData(self::RESOURCE_SETTING_CLIENTPROPERTIES);
@@ -2141,8 +2485,11 @@ class billoWrap {
     
     
     /**
+     * Get a single Settings: client property
      * 
-     * @param string Get a single client property
+     * @param int $id specific client property ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleSettingClientPropertie($id = NULL)
@@ -2152,9 +2499,11 @@ class billoWrap {
     
     
     /**
+     * Create a client property
      * 
-     * @param string List all client properties
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addSettingClientProperty($data = NULL)
     {
@@ -2163,8 +2512,10 @@ class billoWrap {
     
     
     /**
-     * @param int $id empty
-     * @param string Edit a client propertie
+     * Edit client property
+     * 
+     * @param int $id client property ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editSettingClientProperty($id, $data = NULL)
@@ -2174,8 +2525,9 @@ class billoWrap {
     
     
     /**
+     * Delete client property
      * 
-     * @param string Del a client propertie
+     * @param int $id client property ID
      * 
      */
     public function delSettingClientProperty($id)
@@ -2185,8 +2537,9 @@ class billoWrap {
     
     
     /**
+     * List all settings of user properties
      * 
-     * @param string List all user properties
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllSettingUserProperties()
@@ -2196,8 +2549,11 @@ class billoWrap {
     
     
     /**
+     * Get a single Settings: user property
      * 
-     * @param string Get a single user property
+     * @param int $id specific user property ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleSettingUserPropertie($id = NULL)
@@ -2207,9 +2563,11 @@ class billoWrap {
     
     
     /**
+     * Create a setting user property
      * 
-     * @param string List all user properties
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addSettingUserProperty($data = NULL)
     {
@@ -2218,8 +2576,10 @@ class billoWrap {
     
     
     /**
+     * Edit user property
      * 
-     * @param string Edit a user propertie
+     * @param int $id user property ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editSettingUserProperty($id, $data = NULL)
@@ -2229,8 +2589,9 @@ class billoWrap {
     
     
     /**
+     * Delete setting user property
      * 
-     * @param string Delete a user propertie
+     * @param int $id user property ID
      * 
      */
     public function delSettingUserProperty($id)
@@ -2240,8 +2601,9 @@ class billoWrap {
     
     
     /**
+     * List all setting tax rates
      * 
-     * @param string List all tax rates
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllSettingTaxes()
@@ -2251,8 +2613,11 @@ class billoWrap {
     
     
     /**
+     * Get a single Settings: tax rate
      * 
-     * @param string Get sin­gle tax rate
+     * @param int $id specific tax ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleSettingTaxe($id = NULL)
@@ -2262,9 +2627,11 @@ class billoWrap {
     
     
     /**
+     * Create a tax
      * 
-     * @param string List all tax rates
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addSettingTax($data = NULL)
     {
@@ -2273,8 +2640,10 @@ class billoWrap {
     
     
     /**
+     * Edit tax
      * 
-     * @param string Edit a tax rate
+     * @param int $id tax ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editSettingTax($id, $data = NULL)
@@ -2284,8 +2653,9 @@ class billoWrap {
     
     
     /**
+     * Delete setting tax
      * 
-     * @param string Delete a tax rate
+     * @param int $id tax ID
      * 
      */
     public function delSettingTax($id)
@@ -2299,6 +2669,14 @@ class billoWrap {
      * @param string List all tax free countries
      * 
      */
+    
+    
+    /**
+     * List all tax free countries
+     * 
+     * @return mixed JSON-, XML-Object or Array
+     * 
+     */
     public function getAllSettingCountryTaxes()
     {
 	return $this->setRequestData(self::RESOURCE_SETTING_COUNTRYTAXES);
@@ -2306,8 +2684,11 @@ class billoWrap {
     
     
     /**
+     * Show a specific tax free country
      * 
-     * @param string Show a specific tax free country
+     * @param int $id specific country tax ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleSettingCountryTaxe($id = NULL)
@@ -2317,9 +2698,11 @@ class billoWrap {
     
     
     /**
+     * Create a country tax
      * 
-     * @param string List all tax free countries
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addSettingCountryTax($data = NULL)
     {
@@ -2328,8 +2711,10 @@ class billoWrap {
     
     
     /**
-     * @param int $id empty
-     * @param string List all tax free countries
+     * Edit country tax
+     * 
+     * @param int $id article ID
+     * @param mixed $data JSON or XML you send
      * 
      */
     public function editSettingCountryTax($id, $data = NULL)
@@ -2339,7 +2724,10 @@ class billoWrap {
     
     
     /**
-     * @param int $id empty
+     * Delete setting country tax
+     * 
+     * @param int $id country tax ID
+     * 
      */
     public function delSettingCountryTax($id)
     {
@@ -2348,63 +2736,73 @@ class billoWrap {
     
     
     /**
+     * List all settings of reminders
      * 
-     * @param string List all reminder texts
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
-    public function getAllSettingReminderTexts() 
+    public function getAllSettingReminder() 
     {
 	return $this->setRequestData(self::RESOURCE_SETTING_REMINDERTEXTS);
     }
     
     
     /**
+     * Show a specific reminder
      * 
-     * @param string Show a specific reminder text
+     * @param int $id specific reminder ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
-    public function getSingleSettingReminderText($id = NULL)
+    public function getSingleSettingReminder($id = NULL)
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_SETTING_REMINDERTEXT, $id));
     }
     
     
     /**
+     * Create a reminder text
      * 
-     * @param string List all reminder texts
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
-    public function addSettingReminderText($data = NULL) 
+    public function addSettingReminder($data = NULL) 
     {
 	return $this->setRequestData(self::RESOURCE_SETTING_REMINDERTEXTS, $data, 'post');
     }
     
     
     /**
+     * Edit reminder
      * 
-     * @param string List all reminder texts
+     * @param int $id reminder ID
+     * @param mixed $data JSON or XML you send
      * 
      */
-    public function editSettingReminderText($id, $data = NULL) 
+    public function editSettingReminder($id, $data = NULL) 
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_SETTING_REMINDERTEXT, $id), $data, 'put');
     }
     
     
     /**
+     * Delete reminder
      * 
-     * @param string List all reminder texts
+     * @param int $id reminder ID
      * 
      */
-    public function delSettingReminderText($id) 
+    public function delSettingReminder($id) 
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_SETTING_REMINDERTEXT, $id), NULL, 'delete');
     }
     
     
     /**
+     * List all users
      * 
-     * @param string List all users
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllUsers()
@@ -2414,8 +2812,11 @@ class billoWrap {
     
     
     /**
+     * Show a specific user
      * 
-     * @param string Show a specific user
+     * @param int $id specific user ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleUser($id = NULL)
@@ -2425,8 +2826,11 @@ class billoWrap {
     
     
     /**
+     * List all properties of an user
      * 
-     * @param string List all properties of an user
+     * @param int $id specific article user ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getAllUserPropertieValues($user_id = NULL)
@@ -2436,8 +2840,11 @@ class billoWrap {
     
     
     /**
+     * Show a specific user property value
      * 
-     * @param string Get a single property
+     * @param int $id specific user property value ID
+     * 
+     * @return mixed JSON-, XML-Object or Array
      * 
      */
     public function getSingleUserPropertieValues($id = NULL)
@@ -2447,9 +2854,11 @@ class billoWrap {
     
     
     /**
+     * Create a user property value
      * 
-     * @param string List all properties of an user
+     * @param string $data JSON or XML you send
      * 
+     * @return mixed Response 201 Created output will be JSON-, XML-Object or Array
      */
     public function addUserPropertieValue($data = NULL)
     {
@@ -2457,7 +2866,7 @@ class billoWrap {
     }
     
     /**
-     * Description: Get the wanted Accept header
+     * Get the wanted Accept header
      * 
      * @return string
      */
@@ -2477,7 +2886,7 @@ class billoWrap {
     }
     
     /**
-     * Description: Builds the Contenttype Header
+     * Builds the Contenttype Header
      * 
      */
     private function buildHeader()
@@ -2498,7 +2907,7 @@ class billoWrap {
     
     
     /**
-     * Description: Return the Content in the format JSON or XML
+     * Return the Content in the format JSON or XML
      * 
      * @return string
      */
@@ -2524,7 +2933,7 @@ class billoWrap {
     }
 
     /**
-     * Description: Convert Json Objects to Array
+     * Convert Json Objects to Array
      * 
      * @param string $data XML or JSON Data which is requested
      * @param boolen $options from json_encode php.net
@@ -2538,7 +2947,7 @@ class billoWrap {
     }
 
     /**
-     * Description: Convert Json Objects to Array
+     * Convert Json Objects to Array
      * 
      * @param string $data XML or JSON Data which id requested 
      * 
@@ -2553,7 +2962,7 @@ class billoWrap {
     }
 
     /**
-     * Description: get the request from server with curl send
+     * Get the request from server with curl send
      * 
      * @param mixed $data XML or JSON
      * @param string $request Resource Request URL
@@ -2594,8 +3003,7 @@ class billoWrap {
 		$request = 'DELETE';
 		break;
 	}
-	#print $request;
-	#die()
+	
 	curl_setopt($this->curl, CURLOPT_HTTPHEADER, array(sprintf("X-BillomatApiKey: %s", $this->bmApiKey), $this->buildHeader(),sprintf("Accept: application/%s", $this->getHeaderAccept())));
 	curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, TRUE);
 	curl_setopt ($this->curl, CURLOPT_CUSTOMREQUEST, $request);
@@ -2607,12 +3015,12 @@ class billoWrap {
     }
 
     /**
-     * Description: Prepares the requestet URI for request
+     * Prepares the resource URI for request
      * 
      * @param string $resource is the URI the availabel API (the Resources) from http://www.billomat.com/api/grundlagen/
      * @param bool false for HTTP request or true for HTTPS
      * 
-     * @return string 
+     * @return string builds the URL with resources
      * 
      */
     private function setRequestURL($resource, $protocol = TRUE) 
