@@ -122,6 +122,11 @@ Datatype will be which you set in the param 'dataType' (look the description of 
 
 ## Changelog
 
+### billoWrap 1.0.11
+
+* Added Comments to all methods
+* Updated wording of all methods from ...ReminderText() to ...Reminder()
+
 ### billoWrap 1.0.7
 
 * Debuged the PUT HTTP header doesn´t send the datafields that´s why edit methods didn´t work
