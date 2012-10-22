@@ -731,7 +731,7 @@ class billoWrap {
      */
     public function getAllInvoiceItems($invocice_id = NULL)
     {
-	return $this->setRequestData(sprintf(self::RESOURCE_CONFIRMATION_ITEMS, $invocice_id));
+	return $this->setRequestData(sprintf(self::RESOURCE_INVOICE_ITEMS, $invocice_id));
     }
     
     
@@ -745,7 +745,7 @@ class billoWrap {
      */
     public function getSingleInvoiceItem($id = NULL)
     {
-	return $this->setRequestData(sprintf(self::RESOURCE_CONFIRMATION_ITEM, $id));
+	return $this->setRequestData(sprintf(self::RESOURCE_INVOICE_ITEM, $id));
     }
     
     
@@ -758,7 +758,7 @@ class billoWrap {
      */
     public function addInvoiceItem($data = NULL)
     {
-	return $this->setRequestData(self::RESOURCE_CONFIRMATION_ITEMS, $data, 'post');
+	return $this->setRequestData(self::RESOURCE_INVOICE_ITEMS, $data, 'post');
     }
     
     
@@ -771,7 +771,7 @@ class billoWrap {
      */
     public function editInvoiceItem($id, $data = NULL)
     {
-	return $this->setRequestData(sprintf(self::RESOURCE_CONFIRMATION_ITEM, $id), $data, 'put');
+	return $this->setRequestData(sprintf(self::RESOURCE_INVOICE_ITEM, $id), $data, 'put');
     }
     
     
@@ -783,7 +783,7 @@ class billoWrap {
      */
     public function delInvoiceItem($id)
     {
-	return $this->setRequestData(sprintf(self::RESOURCE_CONFIRMATION_ITEM, $id), NULL, 'delete');
+	return $this->setRequestData(sprintf(self::RESOURCE_INVOICE_ITEM, $id), NULL, 'delete');
     }
     
     
