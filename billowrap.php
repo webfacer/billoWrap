@@ -2,12 +2,12 @@
 /**
  * Wrapper for the billomat-API
  *
- * @version 1.0.11
+ * @version 1.0.17
  * @author Davor Ilic
  * @adapted http://code.google.com/p/billomatwrapper/source/browse/trunk/billomat.php
  * @license GNU General Public License v3 <http://www.gnu.org/licenses/gpl-3.0.html>
  * @link http://www.billomat.com/api/
- * @last-update: 08-10-2012 21:30
+ * @last-update: 23-11-2012 04:10
  */
 
 
@@ -17,6 +17,7 @@ class billoWrap {
     /**
      * Constants for the available API resources
      */
+    
     
     //Clientresources
     const RESOURCE_CLIENTS = 'clients';
@@ -31,6 +32,7 @@ class billoWrap {
     const RESOURCE_CLIENT_CUSTOMFIELD = 'clients/customfield?id=%u';
     
     
+    
     //Articleresources
     const RESOURCE_ARTICLES = 'articles';
     const RESOURCE_ARTICLE = 'articles/%u';
@@ -42,9 +44,11 @@ class billoWrap {
     const RESOURCE_ARTICLE_TAG = 'article-tags/%u';
     
     
+    
     //Unitresources
     const RESOURCE_UNITS = 'units';
     const RESOURCE_UNIT = 'units/%u';
+    
     
     
     //Invoiceresources
@@ -64,6 +68,7 @@ class billoWrap {
     const RESOURCE_INVOICE_TAG = 'invoice-tags/%u';
     
     
+    
     //Recurringresources
     const RESOURCE_RECURRINGS = 'recurrings';
     const RESOURCE_RECURRING = 'recurrings/%u';
@@ -73,6 +78,7 @@ class billoWrap {
     
     const RESOURCE_RECURRING_TAGS = 'recurring-tags';
     const RESOURCE_RECURRING_TAG = 'recurring-tags/%u';
+    
     
     
     //Offerresources
@@ -87,6 +93,7 @@ class billoWrap {
     
     const RESOURCE_OFFER_TAGS = 'offer-tags';
     const RESOURCE_OFFER_TAG = 'offer-tags/%u';
+    
     
     
     //Creditnoteresources
@@ -106,6 +113,7 @@ class billoWrap {
     const RESOURCE_CREDITNOTE_TAG = 'credit-note-tags/%u';
     
     
+    
     //Confirmationresources
     const RESOURCE_CONFIRMATIONS = 'confirmations';
     const RESOURCE_CONFIRMATION = 'confirmations/%u';
@@ -120,6 +128,7 @@ class billoWrap {
     const RESOURCE_CONFIRMATION_TAG = 'confirmation-tags/%u';
     
     
+    
     //Reminderresources
     const RESOURCE_REMINDERS = 'reminders';
     const RESOURCE_REMINDER = 'reminders/%u';
@@ -129,6 +138,7 @@ class billoWrap {
     
     const RESOURCE_REMINDER_TAGS = 'reminder-tags';
     const RESOURCE_REMINDER_TAG = 'reminder-tags/%u';
+    
     
     
     //Deliverynoteresources
@@ -145,9 +155,11 @@ class billoWrap {
     const RESOURCE_DELIVERIENOTE_TAG = 'delivery-note-tags/%u';
     
     
+    
     //Templateresources
     const RESOURCE_TEMPLATES = 'templates';
     const RESOURCE_TEMPLATE = 'templates/%u';
+    
     
     
     //Settingresources
@@ -171,6 +183,7 @@ class billoWrap {
     const RESOURCE_SETTING_REMINDERTEXT = 'reminder-texts/%u';
     
     
+    
     //Userresources
     const RESOURCE_USERS = 'users';
     const RESOURCE_USER = 'users/%u';
@@ -179,6 +192,7 @@ class billoWrap {
     const RESOURCE_USER_PROPERTYVALUE = 'user-property-values/%u';
     
 
+    
     /**
      * Constants for regular and SSL Connection
      */
@@ -187,6 +201,8 @@ class billoWrap {
     const HTTP_PORT = 80;
     const HTTPS_PORT = 443;
 
+    
+    
     /**
      * Constants for Invoice Statuses
      */
@@ -197,11 +213,13 @@ class billoWrap {
     const INVOICE_STATUS_PAYED = 'PAYED';
     
     
+    
     /**
-     * The Datatype of the output
+     * The Datatype of the reading and writing
      * @var bool
      */
     private $dataType; // for using Json false XML
+    
     
     
     /**
@@ -211,24 +229,31 @@ class billoWrap {
     private $convertData;
     
 
+    
     /**
      * The billomat-Id of the User that the Requests are for
      * @var string
      */
     private $bmId;
 
+    
+    
     /**
      * The Builded URI from Resources to get the right data
      * @var string
      */
     private $bmRequestURI;
 
+    
+    
     /**
      * The Host for the API Request
      * @var string
      */
     private $bmApiHost = '.billomat.net/api/%s';
 
+    
+    
     /**
      * The billomat API Key. At the moment only developers can request API Keys
      * @url http://www.billomat.com/api/grundlagen/#c165
@@ -236,34 +261,41 @@ class billoWrap {
      */
     private $bmApiKey;
 
+    
+    
     /**
      * If true the request is done by socket, otherwise by curl
      * @var boolean
      */
     private $useSocket;
 
+    
+    
     /**
      * Properties not in use at the moment:
      */
     private $bmSocket; // true for use SSL-Socket or false for not using it
 
+    
+    
     /**
      * Contructor
      *
-     * @param string The billomat-Id of the User that the Requests are for
-     * @param string The billomat API Key
-     * @param boolean output JSON-Object (if true, default), otherwise it will output XML-Object (if false)
-     * @param boolean convert Objectdata to (if true) Array (if false, default)
-     * @param boolean Use socket (if true) or curl (if false, default) Notice: it´s not working yet
+     * @param string $bmId The billomat-Id of the User that the Requests are for
+     * @param string $bmApiKey The billomat API Key
+     * @param boolean $dataType output JSON-Object (if true, default), otherwise it will output XML-Object (if false)
+     * @param boolean $convertData convert Objectdata to (if true) Array (if false, default)
+     * @param boolean $useSocket Use socket (if true) or curl (if false, default) Notice: it is not working yet
      */
     public function __construct($bmId, $bmApiKey, $dataType = TRUE, $convertData = FALSE, $useSocket = FALSE) 
     {
-	$this->bmId = $bmId;
-	$this->bmApiKey = $bmApiKey;
-	$this->dataType = $dataType;
-	$this->convertData = $convertData;
-	$this->useSocket = $useSocket;
+	$this->bmId         = $bmId;
+	$this->bmApiKey     = $bmApiKey;
+	$this->dataType     = $dataType;
+	$this->convertData  = $convertData;
+	$this->useSocket    = $useSocket;
     }
+    
     
     
     /**
@@ -277,6 +309,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_CLIENTS);
     }
+    
     
     
     /**
@@ -293,6 +326,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a client
      * 
@@ -306,6 +340,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Edit client
      * 
@@ -315,8 +350,9 @@ class billoWrap {
      */
     public function editClient($id, $data = NULL)
     {
-	return $this->setRequestData(sprintf(self::RESOURCE_CLIENT, $id), $data, 'post');
+	return $this->setRequestData(sprintf(self::RESOURCE_CLIENT, $id), $data, 'put');
     }
+    
     
     
     /**
@@ -329,6 +365,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CLIENT, $id), NULL, 'delete');
     }
+    
     
     
     /**
@@ -345,6 +382,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Get a single client property 
      * 
@@ -357,6 +395,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CLIENT_PROPERTYVALUE, $id));
     }
+    
     
     
     /**
@@ -372,6 +411,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all client tags
      * 
@@ -382,6 +422,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_CLIENT_TAGS);
     }
+    
     
     
     /**
@@ -398,6 +439,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a client tag
      * 
@@ -411,6 +453,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete client tag
      * 
@@ -421,6 +464,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CLIENT_TAG, $id), NULL, 'delete');
     }
+    
     
     
     /**
@@ -437,6 +481,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all articles
      * 
@@ -447,6 +492,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_ARTICLES);
     }
+    
     
     
     /**
@@ -463,6 +509,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a article
      * 
@@ -474,6 +521,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_ARTICLES, $data, 'post');
     }
+    
     
     
     /**
@@ -489,6 +537,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete article
      * 
@@ -499,6 +548,7 @@ class billoWrap {
     {
 	$this->setRequestData(sprintf(self::RESOURCE_ARTICLE, $id), NULL, 'delete');
     }
+    
     
     
     /**
@@ -515,6 +565,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Get a single article property
      * 
@@ -527,6 +578,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_ARTICLE_PROPERTYVALUE, $id));
     }
+    
     
     
     /**
@@ -542,6 +594,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all properties of a client
      * 
@@ -552,6 +605,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_ARTICLE_TAGS);
     }
+    
     
     
     /**
@@ -568,6 +622,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a article tag
      * 
@@ -579,6 +634,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_ARTICLE_TAGS, $data, 'post');
     }
+    
     
     
     /**
@@ -593,6 +649,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all units
      * 
@@ -603,6 +660,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_UNITS);
     }
+    
     
     
     /**
@@ -619,6 +677,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a unit
      * 
@@ -630,6 +689,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_UNITS, $data, 'post');
     }
+    
     
     
     /**
@@ -645,6 +705,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete unit
      * 
@@ -655,6 +716,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_UNIT, $id), NULL, 'delete');
     }
+    
     
     
     /**
@@ -669,6 +731,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Get a single invoice
      * 
@@ -679,8 +742,9 @@ class billoWrap {
      */
     public function getSingleInvoices($id = NULL)
     {
-	return $this->setRequestData(sprintf(self::RESOURCE_INVOICES, $id));
+	return $this->setRequestData(sprintf(self::RESOURCE_INVOICE, $id));
     }
+    
     
     
     /**
@@ -696,6 +760,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Edit invoice
      * 
@@ -709,6 +774,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete invoice
      * 
@@ -719,6 +785,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_INVOICE, $id), NULL, 'delete');
     }
+    
     
     
     /**
@@ -735,6 +802,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Get a single invoice item
      * 
@@ -747,6 +815,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_INVOICE_ITEM, $id));
     }
+    
     
     
     /**
@@ -762,6 +831,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Edit invoice item
      * 
@@ -775,6 +845,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete invoice item
      * 
@@ -785,6 +856,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_INVOICE_ITEM, $id), NULL, 'delete');
     }
+    
     
     
     /**
@@ -801,6 +873,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Get a single invoice comment
      * 
@@ -813,6 +886,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_INVOICE_COMMENT, $id));
     }
+    
     
     
     /**
@@ -828,6 +902,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete invoice comment
      * 
@@ -840,6 +915,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all invoice payments
      * 
@@ -850,6 +926,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_INVOICE_PAYMENTS);
     }
+    
     
     
     /**
@@ -866,6 +943,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a invoice payment
      * 
@@ -877,6 +955,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_INVOICE_PAYMENTS, $data, 'post');
     }
+    
     
     
     /**
@@ -891,6 +970,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all invoice tags
      * 
@@ -901,6 +981,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_INVOICE_TAGS);
     }
+    
     
     
     /**
@@ -917,6 +998,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a invoice tag
      * 
@@ -928,6 +1010,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_INVOICE_TAGS, $data, 'post');
     }
+    
     
     
     /**
@@ -942,6 +1025,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all recurrings
      * 
@@ -952,6 +1036,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_RECURRINGS);
     }
+    
     
     
     /**
@@ -968,6 +1053,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a recurring
      * 
@@ -979,6 +1065,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_RECURRINGS, $data, 'post');
     }
+    
     
     
     /**
@@ -994,6 +1081,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete recurring
      * 
@@ -1004,6 +1092,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_RECURRING, $id), NULL, 'delete');
     }
+    
     
     
     /**
@@ -1020,6 +1109,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Get a single recurring item
      * 
@@ -1032,6 +1122,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_RECURRING_ITEM, $id));
     }
+    
     
     
     /**
@@ -1047,6 +1138,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Edit recurring item
      * 
@@ -1058,6 +1150,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_RECURRING_ITEM, $id), $data, 'put');
     }
+    
     
     
     /**
@@ -1072,6 +1165,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all recurring tags
      * 
@@ -1082,6 +1176,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_REMINDER_TAGS);
     }
+    
     
     
     /**
@@ -1098,6 +1193,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a recurring tag
      * 
@@ -1109,6 +1205,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_REMINDER_TAGS, $data, 'post');
     }
+    
     
     
     /**
@@ -1123,6 +1220,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all estimates
      * 
@@ -1133,6 +1231,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_OFFERS);
     }
+    
     
     
     /**
@@ -1149,6 +1248,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a estimate
      * 
@@ -1160,6 +1260,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_OFFERS, $data, 'post');
     }
+    
     
     
     /**
@@ -1175,6 +1276,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete estimate
      * 
@@ -1185,6 +1287,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_OFFER, $id), NULL, 'delete');
     }
+    
     
     
     /**
@@ -1201,6 +1304,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Get a single estimate item
      * 
@@ -1213,6 +1317,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_OFFER_ITEM, $id));
     }
+    
     
     
     /**
@@ -1228,6 +1333,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Edit estimate item
      * 
@@ -1241,6 +1347,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete estimate item
      * 
@@ -1251,6 +1358,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_OFFER_ITEM, $id), NULL, 'delete');
     }
+    
     
     
     /**
@@ -1267,6 +1375,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Get a single offer comment
      * 
@@ -1279,6 +1388,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_OFFER_COMMENT, $id));
     }
+    
     
     
     /**
@@ -1294,6 +1404,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete estimate comment
      * 
@@ -1306,6 +1417,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all estimate tags
      * 
@@ -1316,6 +1428,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_OFFER_TAGS);
     }
+    
     
     
     /**
@@ -1332,6 +1445,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a offer tag
      * 
@@ -1343,6 +1457,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_OFFER_TAGS, $data, 'post');
     }
+    
     
     
     /**
@@ -1357,6 +1472,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all credit notes
      * 
@@ -1367,6 +1483,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_CREDITNOTES);
     }
+    
     
     
     /**
@@ -1383,6 +1500,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a credit note
      * 
@@ -1394,6 +1512,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_CREDITNOTES, $data, 'post');
     }
+    
     
     
     /**
@@ -1409,6 +1528,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete estimate note
      * 
@@ -1419,6 +1539,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CREDITNOTE, $id), NULL, 'delete');
     }
+    
     
     
     /**
@@ -1435,6 +1556,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Get a Credit note item
      * 
@@ -1447,6 +1569,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CREDITNOTE_ITEM, $id));
     }
+    
     
     
     /**
@@ -1462,6 +1585,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Edit credit note item
      * 
@@ -1475,6 +1599,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete estimate note item
      * 
@@ -1485,6 +1610,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CREDITNOTE_ITEM, $id), NULL, 'delete');
     }
+    
     
     
     /**
@@ -1501,12 +1627,6 @@ class billoWrap {
     }
     
     
-    /**
-     * 
-     * @param string Get a single comment
-     * 
-     */
-    
     
     /**
      * Get a single credit note comment
@@ -1522,6 +1642,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a credit note comment
      * 
@@ -1533,6 +1654,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_CREDITNOTE_COMMENTS, $data, 'post');
     }
+    
     
     
     /**
@@ -1547,6 +1669,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all payment credit notes
      * 
@@ -1557,6 +1680,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_CREDITNOTE_PAYMENTS);
     }
+    
     
     
     /**
@@ -1573,6 +1697,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a credit note payment
      * 
@@ -1584,6 +1709,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_CREDITNOTE_PAYMENTS, $data, 'post');
     }
+    
     
     
     /**
@@ -1598,6 +1724,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all credit note tags
      * 
@@ -1608,6 +1735,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_CREDITNOTE_TAGS);
     }
+    
     
     
     /**
@@ -1624,6 +1752,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a credit note tag
      * 
@@ -1635,6 +1764,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_CREDITNOTE_TAGS, $data, 'post');
     }
+    
     
     
     /**
@@ -1649,6 +1779,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all confirmations
      * 
@@ -1659,6 +1790,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_CONFIRMATIONS);
     }
+    
     
     
     /**
@@ -1675,6 +1807,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a confirmation
      * 
@@ -1686,6 +1819,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_CONFIRMATIONS, $data, 'post');
     }
+    
     
     
     /**
@@ -1701,6 +1835,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete confirmation
      * 
@@ -1711,6 +1846,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CONFIRMATION, $id), NULL, 'delete');
     }
+    
     
     
     /**
@@ -1727,6 +1863,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Get a single confirmation item
      * 
@@ -1739,6 +1876,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CONFIRMATION_COMMENT, $id));
     }
+    
     
     
     /**
@@ -1754,6 +1892,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Edit confirmation item
      * 
@@ -1767,6 +1906,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete confirmation tag
      * 
@@ -1777,6 +1917,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_CONFIRMATION_ITEM, $id), NULL, 'delete');
     }
+    
     
     
     /**
@@ -1793,12 +1934,6 @@ class billoWrap {
     }
     
     
-    /**
-     * 
-     * @param string Get a single item of a confirmation
-     * 
-     */
-    
     
     /**
      * Get a sindlge confirmation comment
@@ -1814,6 +1949,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a confirmation comment
      * 
@@ -1825,6 +1961,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_CONFIRMATION_COMMENTS, $data, 'post');
     }
+    
     
     
     /**
@@ -1839,6 +1976,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all confiratmion tags
      * 
@@ -1849,6 +1987,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_CONFIRMATION_TAGS);
     }
+    
     
     
     /**
@@ -1865,6 +2004,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a confirmation tag
      * 
@@ -1876,6 +2016,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_CONFIRMATION_TAGS, $data, 'post');
     }
+    
     
     
     /**
@@ -1890,6 +2031,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all reminders
      * 
@@ -1900,6 +2042,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_REMINDERS);
     }
+    
     
     
     /**
@@ -1916,6 +2059,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a reminder
      * 
@@ -1927,6 +2071,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_REMINDERS, $data, 'post');
     }
+    
     
     
     /**
@@ -1942,6 +2087,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete reminder
      * 
@@ -1952,6 +2098,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_REMINDER, $id), NULL, 'delete');
     }
+    
     
     
     /**
@@ -1968,6 +2115,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Get a single reminder item
      * 
@@ -1980,6 +2128,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_REMINDER_ITEM, $id);
     }
+    
     
     
     /**
@@ -1995,6 +2144,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Edit reminder item
      * 
@@ -2006,6 +2156,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_REMINDER_ITEM, $id), $data, 'put');
     }
+    
     
     
     /**
@@ -2020,6 +2171,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all reminder tags
      * 
@@ -2030,6 +2182,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_REMINDER_TAGs);
     }
+    
     
     
     /**
@@ -2046,6 +2199,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a reminder tag
      * 
@@ -2057,6 +2211,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_REMINDER_TAGS, $data, 'post');
     }
+    
     
     
     /**
@@ -2071,6 +2226,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all delivery notes
      * 
@@ -2081,6 +2237,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_DELIVERIENOTES);
     }
+    
     
     
     /**
@@ -2097,6 +2254,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a delivery note
      * 
@@ -2108,6 +2266,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_DELIVERIENOTES, $data, 'post');
     }
+    
     
     
     /**
@@ -2123,6 +2282,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete deliver note
      * 
@@ -2133,6 +2293,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_DELIVERIENOTE, $id), NULL, 'delete');
     }
+    
     
     
     /**
@@ -2149,6 +2310,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Get a single delivery note item
      * 
@@ -2161,6 +2323,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_DELIVERIENOTE_ITEM, $id));
     }
+    
     
     
     /**
@@ -2176,6 +2339,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Edit delivery note item
      * 
@@ -2189,6 +2353,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete deliver note item
      * 
@@ -2199,6 +2364,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_DELIVERIENOTE_ITEM, $id), NULL, 'delete');
     }
+    
     
     
     /**
@@ -2215,6 +2381,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Get a single comment of a delivery note
      * 
@@ -2227,6 +2394,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_DELIVERIENOTE_COMMENT, $id));
     }
+    
     
     
     /**
@@ -2242,6 +2410,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete deliver note comment
      * 
@@ -2254,15 +2423,9 @@ class billoWrap {
     }
     
     
-    /**
-     * 
-     * @param string List all delivery note tags (tagcloud)
-     * 
-     */
-    
     
     /**
-     * List all delivery note tags
+     * List all delivery note tags (tagcloud)
      * 
      * @return mixed JSON-, XML-Object or Array
      * 
@@ -2271,6 +2434,7 @@ class billoWrap {
     {
 	$this->setRequestData(self::RESOURCE_DELIVERIENOTE_TAGS);
     }
+    
     
     
     /**
@@ -2287,6 +2451,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a delivery note tag
      * 
@@ -2298,6 +2463,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_DELIVERIENOTE_TAGS, $data, 'post');
     }
+    
     
     
     /**
@@ -2312,6 +2478,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all templates
      * 
@@ -2322,6 +2489,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_TEMPLATES);
     }
+    
     
     
     /**
@@ -2338,6 +2506,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a template
      * 
@@ -2349,6 +2518,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_TEMPLATES, $data, 'post');
     }
+    
     
     
     /**
@@ -2364,6 +2534,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete template
      * 
@@ -2374,6 +2545,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_TEMPLATE, $id), NULL, 'delete');
     }
+    
     
     
     /**
@@ -2389,6 +2561,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Edit settings
      * 
@@ -2401,6 +2574,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all setting article properties
      * 
@@ -2411,6 +2585,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_SETTING_ARTICLEPROPERTIES);
     }
+    
     
     
     /**
@@ -2427,6 +2602,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a article property
      * 
@@ -2438,6 +2614,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_SETTING_ARTICLEPROPERTIES, $data, 'post');
     }
+    
     
     
     /**
@@ -2453,6 +2630,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete article property
      * 
@@ -2465,15 +2643,9 @@ class billoWrap {
     }
     
     
-    /**
-     * 
-     * @param string List all client properties
-     * 
-     */
-    
     
     /**
-     * List all settings of article properties
+     * List all settings of client properties
      * 
      * @return mixed JSON-, XML-Object or Array
      * 
@@ -2482,6 +2654,7 @@ class billoWrap {
     {
 	$this->setRequestData(self::RESOURCE_SETTING_CLIENTPROPERTIES);
     }
+    
     
     
     /**
@@ -2498,6 +2671,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a client property
      * 
@@ -2509,6 +2683,7 @@ class billoWrap {
     {
 	$this->setRequestData(self::RESOURCE_SETTING_CLIENTPROPERTIES, $data, 'post');
     }
+    
     
     
     /**
@@ -2524,6 +2699,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete client property
      * 
@@ -2536,6 +2712,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all settings of user properties
      * 
@@ -2546,6 +2723,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_SETTING_USERRPROPERTIES);
     }
+    
     
     
     /**
@@ -2562,6 +2740,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a setting user property
      * 
@@ -2573,6 +2752,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_SETTING_USERRPROPERTIES, $data, 'post');
     }
+    
     
     
     /**
@@ -2588,6 +2768,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete setting user property
      * 
@@ -2600,6 +2781,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all setting tax rates
      * 
@@ -2610,6 +2792,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_SETTING_TAXES);
     }
+    
     
     
     /**
@@ -2626,6 +2809,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a tax
      * 
@@ -2637,6 +2821,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_SETTING_TAXES, $data, 'post');
     }
+    
     
     
     /**
@@ -2652,6 +2837,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete setting tax
      * 
@@ -2664,12 +2850,6 @@ class billoWrap {
     }
     
     
-    /**
-     * 
-     * @param string List all tax free countries
-     * 
-     */
-    
     
     /**
      * List all tax free countries
@@ -2681,6 +2861,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_SETTING_COUNTRYTAXES);
     }
+    
     
     
     /**
@@ -2697,6 +2878,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a country tax
      * 
@@ -2708,6 +2890,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_SETTING_COUNTRYTAXES, $data, 'post');
     }
+    
     
     
     /**
@@ -2723,6 +2906,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete setting country tax
      * 
@@ -2735,6 +2919,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all settings of reminders
      * 
@@ -2745,6 +2930,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_SETTING_REMINDERTEXTS);
     }
+    
     
     
     /**
@@ -2761,6 +2947,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a reminder text
      * 
@@ -2772,6 +2959,7 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_SETTING_REMINDERTEXTS, $data, 'post');
     }
+    
     
     
     /**
@@ -2787,6 +2975,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Delete reminder
      * 
@@ -2797,6 +2986,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_SETTING_REMINDERTEXT, $id), NULL, 'delete');
     }
+    
     
     
     /**
@@ -2825,6 +3015,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * List all properties of an user
      * 
@@ -2837,6 +3028,7 @@ class billoWrap {
     {
 	return $this->setRequestData(sprintf(self::RESOURCE_USER_PROPERTYVALUES, $user_id));
     }
+    
     
     
     /**
@@ -2853,6 +3045,7 @@ class billoWrap {
     }
     
     
+    
     /**
      * Create a user property value
      * 
@@ -2864,6 +3057,8 @@ class billoWrap {
     {
 	return $this->setRequestData(self::RESOURCE_USER_PROPERTYVALUES, $data, 'post');
     }
+    
+    
     
     /**
      * Get the wanted Accept header
@@ -2884,6 +3079,8 @@ class billoWrap {
 	
 	return $type;
     }
+    
+    
     
     /**
      * Builds the Contenttype Header
@@ -2906,32 +3103,41 @@ class billoWrap {
     }
     
     
+    
     /**
-     * Return the Content in the format JSON or XML
+     * Return the Content type of JSON or XML
      * 
-     * @return string
+     * @todo type and description of the parameters
+     * 
+     * @param type $resources
+     * @param type $data Description
+     * @param type $request Description
+     * 
+     * @return object output requested data
      */
     private function setRequestData($resource, $data = NULL, $request = NULL)
     {
 	
 	$this->bmRequestURI = $resource;
 	
-	$data = $this->getRequest($data, $request);
+	$requestData = $this->getRequest($data, $request);
 	
 	header($this->buildHeader());
 	
 	if($this->dataType === TRUE && $this->convertData === TRUE)
 	{
-	    return $this->getJsonDecode($data);
+	    return $this->getJsonDecode($requestData);
 	}
 	else if($this->dataType === FALSE && $this->convertData === TRUE)
 	{
-	    return $this->getXMLDecode($data);
+	    return $this->getXMLDecode($requestData);
 	}
 	
-	return $data;
+	return $requestData;
     }
 
+    
+    
     /**
      * Convert Json Objects to Array
      * 
@@ -2941,13 +3147,30 @@ class billoWrap {
      * @return array
      * 
      */
-    private function getJsonDecode($data, $options = TRUE)
+    protected function getJsonDecode($data, $options = TRUE)
     {
 	return json_decode($data, $options);
     }
+    
+    
+    
+    /**
+     * Encode Object into JSON-Object
+     * 
+     * @param type $data
+     * 
+     * @return object gives an JSON object back
+     */
+    protected function getJsonEncode($data)
+    {
+        return json_encode($data);
+    }
+    
+    
 
     /**
      * Convert Json Objects to Array
+     * @todo add  convert to ArrayObject
      * 
      * @param string $data XML or JSON Data which id requested 
      * 
@@ -2956,13 +3179,106 @@ class billoWrap {
      * @return array
      * 
      */
-    private function getXMLDecode($data, $options = TRUE) 
+    protected function getXMLDecode($data, $options = TRUE) 
     {
 	return $this->getJsonDecode(json_encode((array) simplexml_load_string($data)), $options);
     }
-
+    
+    
+    /**
+     * Encode Object into XML-Object
+     * 
+     * @param mixed $data
+     * 
+     * @return object output XML-Object
+     */
+    protected function getXMLEncode($obj, $level = 1, $xml = NULL)
+    {
+        if(!$obj){
+            return FALSE;
+        }
+        
+        $node = NULL;
+        
+        if($level==1) 
+        {
+            $xml .= '<?xml version="1.0" encoding="ISO-8859-1"?>'."\n"; 
+        }
+        
+        if(is_array($obj) || is_object($obj)) {
+            
+            foreach ($obj as $key => $value)
+            {
+                $key = strtolower($key);
+                
+                if($level>1)
+                {
+                    $node = $xml;
+                }
+                
+                $xml .= sprintf(str_repeat("\t", $level).'<%s>', $key);
+                
+                if (is_array($value) || is_object($value))
+                {
+                    $xml .= $this->getXMLEncode($value, $level+1);
+                }
+                else
+                {
+                    if (trim($value) != NULL)
+                    {
+                        if (htmlspecialchars($value) != $value) 
+                        {
+                            $xml .= str_repeat("\t",$level)."<![CDATA[$value]]>\n";
+                        } 
+                        else 
+                        {
+                            $xml .= str_repeat("\t",$level)."$value\n";
+                        }
+                    }
+                }
+                
+                $xml .= sprintf(str_repeat("\t",$level).'</%s>', $key);
+            }
+            
+            return $xml;
+            
+        }
+        else
+        {
+            return (string)$obj;
+        }
+        
+        return $obj;
+    }
+    
+    
+    
+    /**
+     * Converts client data to right Object which user setted in constructor
+     * 
+     * @param mixed $data
+     * 
+     * @return object return setted object type: JSON or XML
+     */
+    protected function getRightWritingObject($obj)
+    {
+        if(is_object($obj) && $this->dataType)
+        {
+            return $this->getJsonEncode($obj);
+        }
+        elseif((is_array($obj) || is_object ($obj)) && !$this->dataType)
+        {
+            return $this->getXMLEncode($obj);
+        }
+        return $obj;
+    }
+    
+    
+    
     /**
      * Get the request from server with curl send
+     * 
+     * @todo split into more functions for separate writing and reading
      * 
      * @param mixed $data XML or JSON
      * @param string $request Resource Request URL
@@ -2972,12 +3288,11 @@ class billoWrap {
      */
     private function getRequest($data = NULL, $request = NULL)
     {
-	
-	
+        
 	$this->curl = curl_init();
 	curl_setopt($this->curl, CURLOPT_HEADER, FALSE);
 	curl_setopt($this->curl, CURLOPT_URL, $this->setRequestURL($this->bmRequestURI));
-	
+        
 	switch($request)
 	{
 	    case NULL:
@@ -2996,6 +3311,11 @@ class billoWrap {
 		    $request = 'PUT';
 		}
 		
+                if($data)
+                {
+                    $data = $this->getRightWritingObject($data);
+                }
+                
 		curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data);
 		break;
 	    
@@ -3003,16 +3323,24 @@ class billoWrap {
 		$request = 'DELETE';
 		break;
 	}
-	
-	curl_setopt($this->curl, CURLOPT_HTTPHEADER, array(sprintf("X-BillomatApiKey: %s", $this->bmApiKey), $this->buildHeader(),sprintf("Accept: application/%s", $this->getHeaderAccept())));
+        
+	curl_setopt($this->curl, CURLOPT_HTTPHEADER, array(
+            sprintf("X-BillomatApiKey: %s", $this->bmApiKey), 
+            $this->buildHeader(), 
+            sprintf("Accept: application/%s", $this->getHeaderAccept())
+        ));
+        
 	curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, TRUE);
-	curl_setopt ($this->curl, CURLOPT_CUSTOMREQUEST, $request);
-	
+        
+	curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, $request);
+        
 	$return = curl_exec($this->curl);
 	curl_close($this->curl);
-	
+        
 	return $return;
     }
+    
+    
 
     /**
      * Prepares the resource URI for request
