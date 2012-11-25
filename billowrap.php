@@ -2,12 +2,12 @@
 /**
  * Wrapper for the billomat-API
  *
- * @version 1.0.17
+ * @version 1.0.18
  * @author Davor Ilic
  * @adapted http://code.google.com/p/billomatwrapper/source/browse/trunk/billomat.php
  * @license GNU General Public License v3 <http://www.gnu.org/licenses/gpl-3.0.html>
  * @link http://www.billomat.com/api/
- * @last-update: 23-11-2012 04:10
+ * @last-update: 25-11-2012 18:54
  */
 
 
@@ -3262,14 +3262,15 @@ class billoWrap {
      */
     protected function getRightWritingObject($obj)
     {
-        if(is_object($obj) && $this->dataType)
+        if((is_array($obj) || is_object ($obj)) && $this->dataType)
         {
-            return $this->getJsonEncode($obj);
+            $obj = $this->getJsonEncode($obj);
         }
         elseif((is_array($obj) || is_object ($obj)) && !$this->dataType)
         {
-            return $this->getXMLEncode($obj);
+            $obj = $this->getXMLEncode($obj);
         }
+        
         return $obj;
     }
     
