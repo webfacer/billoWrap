@@ -2,12 +2,12 @@
 /**
  * Wrapper for the billomat-API
  *
- * @version 1.0.18
+ * @version 1.0.19
  * @author Davor Ilic
  * @adapted http://code.google.com/p/billomatwrapper/source/browse/trunk/billomat.php
  * @license GNU General Public License v3 <http://www.gnu.org/licenses/gpl-3.0.html>
  * @link http://www.billomat.com/api/
- * @last-update: 25-11-2012 18:54
+ * @last-update: 26-11-2012 20:52
  */
 
 
@@ -3287,7 +3287,7 @@ class billoWrap {
      * @return string
      * 
      */
-    private function getRequest($data = NULL, $request = NULL)
+    protected function getRequest($data = NULL, $request = NULL)
     {
         
 	$this->curl = curl_init();
@@ -3370,6 +3370,11 @@ class billoWrap {
 	$url = sprintf($protocol . $this->bmId . $this->bmApiHost, $resource);
 	
 	return $url;
+    }
+    
+    protected function logRequest()
+    {
+        // Logging logic comes here
     }
 
 }
