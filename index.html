@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Billowrap : billoWrap using the http://billomat.com Api" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Billowrap</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/webfacer/billoWrap">View on GitHub</a>
+
+          <h1 id="project_title">Billowrap</h1>
+          <h2 id="project_tagline">billoWrap using the http://billomat.com Api</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/webfacer/billoWrap/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/webfacer/billoWrap/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>Billomat API</h1>
+
+<h1>billoWrap</h1>
+
+<p>Used to retrive data from billom.net and change it for your individual Application.</p>
+
+<h2>Parameters</h2>
+
+<h3>bmId</h3>
+
+<ul>
+<li>Param: string</li>
+</ul><p>Description:
+This is your billomID  which you use to login in your right Domain</p>
+
+<h3>bmApiKey</h3>
+
+<ul>
+<li>Param: string</li>
+</ul><p>Description:
+This is the billomat API Key.
+Here you can find how to activate your API Key under the Headline Authentication.
+Here you can find it <a href="http://www.billomat.com/en/api/basics/">http://www.billomat.com/en/api/basics/</a></p>
+
+<h3>dataType</h3>
+
+<ul>
+<li>Param: boolen</li>
+<li>Default: TRUE</li>
+</ul><p>Description:
+Output data in JSON-Object, false otherwise for XML-Object. Also you can use NULL to output data in HTML.</p>
+
+<h3>convertData</h3>
+
+<p>Param: boolen
+Default: FALSE</p>
+
+<p>Converts the dataobject if "TRUE" to Array. Use "NULL" for get HTML header.</p>
+
+<h3>useSocket</h3>
+
+<p>Notice: not yet ready for usage</p>
+
+<ul>
+<li>Param: boolen</li>
+<li>Defaul: FALSE</li>
+</ul><p>Description:
+If true the request is done by socket, otherwise by curl.</p>
+
+<h2>Usage Example</h2>
+
+<p>Now take a look how we retrive Data from the "billomat API" we choose for this example to get all our Clients</p>
+
+<pre><code>    require_once 'billowrap.php';
+
+    $bmId = 'YourBillomatID'; // this is your billomatID you use to login
+    $bmApiKey = 'YourApiKey'; // the API Key you will got it from billomat settings check the explanation http://www.billomat.com/en/api/basics/
+    $dataType = true; // Set to true, to output JSON Object, false otherwise for XML Object
+    $convertData = false; // Convert the JSON or XML data to Array, false otherwise for not converting the object 
+
+
+    $billoWrap = new billoWrap($bmId, $bmApiKey, $dataType, $convertData);
+</code></pre>
+
+<h3>Read Method for special data or List all.</h3>
+
+<p>Datatype will be which you set in the param 'dataType' (look the description of variable $dataType):</p>
+
+<pre><code>    $id = 12345; // the id for special Client you want to show
+
+    // Output all data from Client output will be which you deside in $dataType
+    $singleData = $billoWrap-&gt;getSingleClient($id); 
+    print_r($singleData);
+
+    // Output all data from Client
+    $allData = $billoWrap-&gt;getAllClients(); 
+    print_r($allData);
+</code></pre>
+
+<h3>Adding Method for a special data:</h3>
+
+<pre><code>    // string for datatransfer you are using JSON or XML which you predefined on dataType for reques type data
+    $data = '{
+
+        "client" : {
+            "first_name"    : "Max",
+            "last_name"     : "Mustermann"
+        }
+
+    }';
+
+    $billoWrap-&gt;addClient($data);
+</code></pre>
+
+<h3>Edit Method for a data:</h3>
+
+<pre><code>    // special client id integer
+    $clientID = 1234;
+
+    // send data which you want to edit same es add for dataType
+    $data = '{
+
+        "client" : {
+            "first_name"    : "Mustermann",
+            "last_name"     : "Max"
+        }
+
+    }';
+
+    $billoWrap-&gt;editClient($clientID, $data);
+</code></pre>
+
+<h3>Delete Method for deleting the data:</h3>
+
+<pre><code>    $clientID = 1234;
+
+    // just say which client id you want to delete and it is done
+    $billoWrap-&gt;delClient($clientID);
+</code></pre>
+
+<h2>Changelog</h2>
+
+<h3>billoWrap 1.0.11</h3>
+
+<ul>
+<li>Added Comments to all methods</li>
+<li>Updated wording of all methods from ...ReminderText() to ...Reminder()</li>
+</ul><h3>billoWrap 1.0.7</h3>
+
+<ul>
+<li>Debuged the PUT HTTP header doesn´t send the datafields that´s why edit methods didn´t work</li>
+<li>Updated Doku for version 1.0.6</li>
+</ul><h3>billoWrap 1.0.6</h3>
+
+<ul>
+<li>Added all possible constant resource</li>
+<li>Added HTTP verbs GET, POST, PUT, DELETE</li>
+<li>Added all possible for adding</li>
+<li>Added all possible for editing</li>
+<li>Added all possible for deleting</li>
+<li>Corrected wrong conventions of methods</li>
+</ul><h3>billoWrap 1.0.5</h3>
+
+<ul>
+<li>Added all resources that exist in Billomat - API only for reading, not yet ready filterfunction, POST, PUT and DELETE</li>
+<li>Function name conventions were changed example for list of clients <code>getAllClients()</code> ans example for getting a single client <code>getSingleClient(1234)</code>
+</li>
+</ul><h3>billoWrap 1.0.0</h3>
+
+<ul>
+<li>Uploaded File</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Billowrap maintained by <a href="https://github.com/webfacer">webfacer</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-11117826-3");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
