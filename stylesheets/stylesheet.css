@@ -374,6 +374,10 @@ Full-Width Styles
   background: #212121;
 }
 
+#disqus_thread {
+    padding: 50px 0 0 0;
+}
+
 
 
 /*******************************************************************************
@@ -432,6 +436,3 @@ Small Device Styles
 
 }
 
-#disqus_thread {
-    padding: 50px 0 0 0;
-}
