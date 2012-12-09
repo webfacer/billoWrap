@@ -21,7 +21,7 @@ class billoWrap {
     
     //Clientresources
     const RESOURCE_CLIENTS = 'clients';
-    const RESOURCE_CLIENT = 'clients/%u';
+    const RESOURCE_CLIENT = 'clients/%s';
     
     const RESOURCE_CLIENT_PROPERTYVALUES = 'client-property-values?client_id=%u';
     const RESOURCE_CLIENT_PROPERTYVALUE = 'client-property-values/%u';
