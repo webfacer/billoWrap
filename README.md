@@ -1,4 +1,4 @@
-# Billomat API
+# Billomat API ![alt tag](https://www.codeship.io/projects/69c60090-eadc-0130-8a54-1eb175b917ea/status)
 
 billoWrap
 =========
