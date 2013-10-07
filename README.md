@@ -56,7 +56,7 @@ If true the request is done by socket, otherwise by curl.
 ## Usage Example
 
 Now take a look how we retrive Data from the "billomat API" we choose for this example to get all our Clients
-
+```php
         require_once 'billowrap.php';
 
         $bmId = 'YourBillomatID'; // this is your billomatID you use to login
@@ -66,11 +66,11 @@ Now take a look how we retrive Data from the "billomat API" we choose for this e
 
     
         $billoWrap = new billoWrap($bmId, $bmApiKey, $dataType, $convertData);
-        
+```        
 
 ### Read Method for special data or List all.
 Datatype will be which you set in the param 'dataType' (look the description of variable $dataType):
-
+```php
         $id = 12345; // the id for special Client you want to show
     
     	// Output all data from Client output will be which you deside in $dataType
@@ -81,9 +81,9 @@ Datatype will be which you set in the param 'dataType' (look the description of 
         $allData = $billoWrap->getAllClients(); 
         print_r($allData);
 
-
+```
 ### Adding Method for a special data:
-        
+```php        
         // string for datatransfer you are using JSON or XML which you predefined on dataType for reques type data
         $data = '{
             
@@ -95,9 +95,9 @@ Datatype will be which you set in the param 'dataType' (look the description of 
         }';
         
         $billoWrap->addClient($data);
-        
+```        
 ### Edit Method for a data:
-
+```php
         // special client id integer
         $clientID = 1234;
         
@@ -112,10 +112,11 @@ Datatype will be which you set in the param 'dataType' (look the description of 
         }';
         
         $billoWrap->editClient($clientID, $data);
-        
+```        
 ### Delete Method for deleting the data:
-        
+```php        
         $clientID = 1234;
         
         // just say which client id you want to delete and it is done
         $billoWrap->delClient($clientID);
+```
