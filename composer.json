@@ -1,0 +1,26 @@
+{
+    "name": "webfacer/billoWrap",
+    "type": "library",
+    "description": "PHP wrapper for the billomat.net Data API",
+    "keywords": ["billomat", "billing" "api", "php", "webfacer"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "webfacer",
+            "email": "webfacer@gmail.com",
+            "homepage": "webfacer.com",
+            "role": "Developer"
+        }
+    ],
+    "support":{
+            "email":"webfacer@gmail.com",
+            "issues":"https://github.com/webfacer/billoWrap/issues"
+    },
+    "require": {
+        "php" : ">5.3"
+    },
+    "autoload": {
+        "psr-0": {
+            "webfacer": "/"
+        }
+    }
