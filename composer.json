@@ -2,7 +2,7 @@
     "name": "webfacer/billoWrap",
     "type": "library",
     "description": "PHP wrapper for the billomat.net Data API",
-    "keywords": ["billomat", "billing" "api", "php", "webfacer"],
+    "keywords": ["billomat", "billing", "api", "php", "webfacer"],
     "license": "MIT",
     "authors": [
         {
