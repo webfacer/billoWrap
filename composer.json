@@ -1,5 +1,5 @@
 {
-    "name": "webfacer/billoWrap",
+    "name": "webfacer/billowrap",
     "type": "library",
     "description": "PHP wrapper for the billomat.net Data API",
     "keywords": ["billomat", "billing", "api", "php", "webfacer"],
