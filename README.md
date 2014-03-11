@@ -120,3 +120,7 @@ Datatype will be which you set in the param 'dataType' (look the description of 
         // just say which client id you want to delete and it is done
         $billoWrap->delClient($clientID);
 ```
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/webfacer/billowrap/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
