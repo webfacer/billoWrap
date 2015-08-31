@@ -3,7 +3,7 @@
 billoWrap
 =========
 
-Used to retrive data from billom.net and change it for your individual Application.
+Used to retrive or change data from billomat.net .
 
 Parameters
 ----------
@@ -13,7 +13,7 @@ Parameters
 * Param: string
 
 Description:
-This is your billomID  which you use to login in your right Domain
+This is your billomat ID  which you use to login in your right Domain
 
 
 ### bmApiKey
