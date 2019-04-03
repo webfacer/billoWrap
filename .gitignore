@@ -2,4 +2,4 @@
 /index.php
 /lib/
 .travis.yml
-.composer.phar
+composer.phar
